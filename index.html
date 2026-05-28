@@ -92,6 +92,28 @@ nav {
 .footer-btn { padding: 8px 20px; background: transparent; color: #00BFFF; font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 2px; border: 1px solid rgba(0,191,255,0.4); border-radius: 4px; cursor: pointer; text-transform: uppercase; text-decoration: none; display: inline-block; transition: background 0.2s, border-color 0.2s, transform 0.2s; }
 .footer-btn:hover { background: rgba(0,191,255,0.08); border-color: #00BFFF; transform: translateY(-2px); }
 .live-dot { width: 5px; height: 5px; border-radius: 50%; background: #00FF99; display: inline-block; animation: pulse 2s infinite; }
+
+/* ===== POOLS EN DIRECT ===== */
+.pl-wrap { max-width: 1000px; margin: 0 auto; padding: 2.5rem 2rem; }
+.pl-head { display: flex; align-items: center; gap: 10px; margin-bottom: 1.5rem; }
+.pl-status { font-family: 'Rajdhani', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+.pl-status.live { color: #00FF99; }
+.pl-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; }
+.pl-card { position: relative; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 1.5rem; overflow: hidden; transition: border-color 0.3s; }
+.pl-card::before { content: ''; position: absolute; inset: 0 0 auto 0; height: 2px; background: var(--pc); opacity: 0.8; }
+.pl-card:hover { border-color: var(--pc); }
+.pl-label { font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--pc); display: flex; align-items: center; justify-content: space-between; }
+.pl-amount { font-family: 'Orbitron', sans-serif; font-size: 30px; font-weight: 900; color: #fff; margin: 12px 0 2px; font-variant-numeric: tabular-nums; line-height: 1; }
+.pl-amount small { font-family: 'Rajdhani', sans-serif; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.35); letter-spacing: 1px; }
+.pl-sub { font-family: 'Rajdhani', sans-serif; font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.4); margin-bottom: 10px; }
+.pl-bar { height: 8px; border-radius: 6px; background: rgba(255,255,255,0.06); overflow: hidden; }
+.pl-fill { height: 100%; width: 0; border-radius: 6px; background: var(--pc); box-shadow: 0 0 12px var(--pc); transition: width 0.9s cubic-bezier(.2,.8,.2,1); }
+.pl-note { font-family: 'Rajdhani', sans-serif; font-size: 13px; font-weight: 600; margin-top: 12px; color: var(--pc); min-height: 18px; }
+.pl-note a { color: var(--pc); text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.2); }
+.pl-strip { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid rgba(255,255,255,0.06); }
+.pl-stat { display: flex; flex-direction: column; }
+.pl-stat b { font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 700; color: #fff; font-variant-numeric: tabular-nums; }
+.pl-stat span { font-family: 'Rajdhani', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-top: 2px; }
 @media (max-width: 600px) {
   .hero-title { font-size: 28px; }
   .nav-title { font-size: 11px; }
@@ -180,6 +202,50 @@ nav {
       <a class="btn-primary" href="https://fractal-arena-web-production.up.railway.app" target="_blank">Jouer maintenant</a>
       <p style="font-family:'Rajdhani',sans-serif;font-size:12px;color:rgba(255,255,255,0.5);margin-top:0.75rem;max-width:400px;">⚠️ Le wallet doit avoir au moins 1 transaction on-chain pour être éligible à l'airdrop de 2000 $FRACTALARENA</p>
       <a class="btn-ghost" href="https://github.com/Arthefacte" target="_blank">GitHub</a>
+    </div>
+  </div>
+
+  <!-- POOLS EN DIRECT -->
+  <div class="pl-wrap">
+    <div class="pl-head">
+      <p class="grad" style="font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:600;letter-spacing:4px;text-transform:uppercase;margin:0;">En temps réel</p>
+      <span class="live-dot" id="pl-dot" style="background:rgba(255,255,255,0.25);"></span>
+      <span class="pl-status" id="pl-status">Connexion…</span>
+    </div>
+    <h2 class="grad" style="font-family:'Orbitron',sans-serif;font-size:18px;font-weight:700;margin-bottom:1.5rem;">Pools en direct</h2>
+
+    <div class="pl-grid">
+      <!-- Liquidité -->
+      <div class="pl-card" style="--pc:#00BFFF;">
+        <div class="pl-label">Pool de liquidité</div>
+        <div class="pl-amount" id="pl-liq">—<small> $FA</small></div>
+        <div class="pl-sub" id="pl-liq-sub">seuil 100 000</div>
+        <div class="pl-bar"><div class="pl-fill" id="pl-liq-fill"></div></div>
+      </div>
+
+      <!-- Burn -->
+      <div class="pl-card" style="--pc:#FF6600;">
+        <div class="pl-label">Burn 🔥</div>
+        <div class="pl-amount" id="pl-burn">—<small> $FA</small></div>
+        <div class="pl-sub" id="pl-burn-sub">seuil 50 000</div>
+        <div class="pl-bar"><div class="pl-fill" id="pl-burn-fill"></div></div>
+        <div class="pl-note" id="pl-burn-note"></div>
+      </div>
+
+      <!-- Airdrop -->
+      <div class="pl-card" style="--pc:#00FF99;">
+        <div class="pl-label">Pool airdrop</div>
+        <div class="pl-amount" id="pl-air">—<small> $FA</small></div>
+        <div class="pl-sub" id="pl-air-sub">redistribué aux joueurs</div>
+        <div class="pl-bar"><div class="pl-fill" id="pl-air-fill" style="opacity:.5;"></div></div>
+      </div>
+    </div>
+
+    <div class="pl-strip">
+      <div class="pl-stat"><b id="pl-online">—</b><span>En ligne</span></div>
+      <div class="pl-stat"><b id="pl-players">—</b><span>Joueurs</span></div>
+      <div class="pl-stat"><b id="pl-combats">—</b><span>Combats</span></div>
+      <div class="pl-stat"><b id="pl-deposits">—</b><span>Dépôts $FA</span></div>
     </div>
   </div>
 
@@ -403,6 +469,106 @@ function closeDropdown() {
 document.addEventListener('click', function(e) {
   if (!e.target.closest('.dropdown')) closeDropdown();
 });
+
+/* ===== POOLS EN DIRECT ===== */
+(function(){
+  const API = "https://fractal-arena-web-production.up.railway.app";
+  const EXPLORER_TX = "https://explorer.unisat.io/fractal-mainnet/tx/";
+  const LIQ_SEUIL = 100000, BURN_SEUIL = 50000, POLL = 5000;
+  const $ = id => document.getElementById(id);
+  const nf = new Intl.NumberFormat('fr-FR');
+  const shown = {}; // valeurs affichées (pour anim)
+
+  function countTo(el, target){
+    if(!el) return;
+    const small = el.querySelector('small');
+    const suffix = small ? small.outerHTML : '';
+    const from = shown[el.id] || 0;
+    if(from === target){
+      el.innerHTML = nf.format(target) + suffix; // garantit l'affichage (ex: 0)
+      return;
+    }
+    const t0 = performance.now(), dur = 800;
+    function step(t){
+      const p = Math.min(1, (t - t0) / dur);
+      const ease = 1 - Math.pow(1 - p, 3);
+      const val = Math.round(from + (target - from) * ease);
+      el.innerHTML = nf.format(val) + suffix;
+      if(p < 1) requestAnimationFrame(step);
+      else shown[el.id] = target;
+    }
+    requestAnimationFrame(step);
+  }
+  const setText = (el, v) => { if(el) el.textContent = v; };
+
+  let burnEnds = null;
+  function tickBurn(){
+    const note = $('pl-burn-note');
+    if(!note || !burnEnds) return;
+    let d = Math.max(0, burnEnds - Date.now());
+    const h = String(Math.floor(d/3.6e6)).padStart(2,'0');
+    const m = String(Math.floor((d%3.6e6)/6e4)).padStart(2,'0');
+    const s = String(Math.floor((d%6e4)/1000)).padStart(2,'0');
+    note.innerHTML = '⏳ Burn dans ' + h + ':' + m + ':' + s;
+  }
+  setInterval(()=>{ if(burnEnds) tickBurn(); }, 1000);
+
+  async function poll(){
+    try{
+      const r = await fetch(API + "/stats", {cache:"no-store"});
+      if(!r.ok) throw new Error("HTTP " + r.status);
+      const j = await r.json();
+      $('pl-dot').style.background = "#00FF99";
+      $('pl-status').textContent = "En direct";
+      $('pl-status').classList.add('live');
+
+      const liq = j.liquidity_pool?.total_amount || 0;
+      const air = j.airdrop_pool?.total_amount || 0;
+      const b   = j.burn_pool || {};
+      const burn = b.total_amount || 0;
+
+      countTo($('pl-liq'), liq);
+      countTo($('pl-air'), air);
+      countTo($('pl-burn'), burn);
+
+      $('pl-liq-fill').style.width = Math.min(100, liq/LIQ_SEUIL*100) + "%";
+      setText($('pl-liq-sub'), nf.format(liq) + " / " + nf.format(LIQ_SEUIL));
+      $('pl-burn-fill').style.width = Math.min(100, burn/(b.threshold||BURN_SEUIL)*100) + "%";
+      setText($('pl-burn-sub'), nf.format(burn) + " / " + nf.format(b.threshold||BURN_SEUIL));
+      setText($('pl-air-sub'), (j.airdrop_pool?.defeats_count||0) + " contributions");
+      $('pl-air-fill').style.width = "100%";
+
+      // Note burn : compte à rebours, prêt, ou dernier burn
+      const note = $('pl-burn-note');
+      burnEnds = null;
+      if(b.ready_to_burn){
+        note.innerHTML = "🔥 Seuil atteint — burn imminent";
+      } else if(b.threshold_reached && b.countdown_ends_at){
+        burnEnds = new Date(b.countdown_ends_at).getTime();
+        tickBurn();
+      } else if(b.last_burn && b.last_burn.at){
+        const lb = b.last_burn;
+        const d = new Date(lb.at).toLocaleDateString('fr-FR',{day:'2-digit',month:'short'});
+        let line = "Dernier burn : " + (lb.amount!=null?nf.format(lb.amount)+" ":"") + "$FA · " + d;
+        if(lb.txid) line += " · <a target='_blank' rel='noopener' href='"+EXPLORER_TX+lb.txid+"'>preuve</a>";
+        note.innerHTML = line;
+      } else {
+        note.innerHTML = "";
+      }
+
+      countTo($('pl-online'), j.players?.online || 0);
+      countTo($('pl-players'), j.players?.total || 0);
+      countTo($('pl-combats'), j.players?.total_combats || 0);
+      countTo($('pl-deposits'), j.deposits?.total_amount || 0);
+    }catch(e){
+      $('pl-dot').style.background = "rgba(255,255,255,0.25)";
+      $('pl-status').textContent = "Hors ligne";
+      $('pl-status').classList.remove('live');
+    }
+  }
+  poll();
+  setInterval(poll, POLL);
+})();
 </script>
 </body>
 </html>
