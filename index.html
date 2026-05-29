@@ -148,20 +148,6 @@ nav {
     <p class="grad" style="font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:500;letter-spacing:4px;margin-bottom:1.5rem;text-transform:uppercase;">Jeux indépendants · Solo Dev · France</p>
     <p class="grad" style="max-width:480px;font-size:18px;font-weight:500;line-height:1.7;margin-bottom:2rem;">Je construis des jeux connectés à la blockchain du réseau Fractal Bitcoin. Les jeux proposés ont une économie réelle.</p>
 
-    <!-- STATS EN DIRECT (Fractal Arena) -->
-    <div style="width:100%;max-width:560px;margin:0 auto;">
-      <div class="pl-head" style="justify-content:center;">
-        <span class="live-dot" id="home-dot" style="background:rgba(255,255,255,0.25);"></span>
-        <span class="pl-status" id="home-status">Connexion…</span>
-      </div>
-      <div class="pl-strip" style="justify-content:center;border-top:1px solid rgba(255,255,255,0.06);">
-        <div class="pl-stat" style="align-items:center;"><b id="home-players">—</b><span>Joueurs</span></div>
-        <div class="pl-stat" style="align-items:center;"><b id="home-online">—</b><span>En ligne</span></div>
-        <div class="pl-stat" style="align-items:center;"><b id="home-combats">—</b><span>Combats</span></div>
-        <div class="pl-stat" style="align-items:center;"><b id="home-liq">—</b><span>Pool liquidité $FA</span></div>
-        <div class="pl-stat" style="align-items:center;"><b id="home-burn">—</b><span>Burn $FA</span></div>
-      </div>
-    </div>
   </section>
   <section class="section">
     <p class="grad" style="font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:600;letter-spacing:4px;text-transform:uppercase;margin-bottom:0.5rem;">Catalogue</p>
@@ -538,8 +524,6 @@ document.addEventListener('click', function(e) {
       $('pl-dot').style.background = "#00FF99";
       $('pl-status').textContent = "En direct";
       $('pl-status').classList.add('live');
-      if($('home-dot')){ $('home-dot').style.background = "#00FF99"; }
-      if($('home-status')){ $('home-status').textContent = "En direct"; $('home-status').classList.add('live'); }
 
       const liq = j.liquidity_pool?.total_amount || 0;
       const air = j.airdrop_pool?.total_amount || 0;
@@ -580,18 +564,10 @@ document.addEventListener('click', function(e) {
       countTo($('pl-combats'), j.players?.total_combats || 0);
       countTo($('pl-deposits'), j.deposits?.total_amount || 0);
 
-      // Strip stats sur la page d'accueil
-      countTo($('home-players'), j.players?.total || 0);
-      countTo($('home-online'),  j.players?.online || 0);
-      countTo($('home-combats'), j.players?.total_combats || 0);
-      countTo($('home-liq'),     liq);
-      countTo($('home-burn'),    burn);
     }catch(e){
       $('pl-dot').style.background = "rgba(255,255,255,0.25)";
       $('pl-status').textContent = "Hors ligne";
       $('pl-status').classList.remove('live');
-      if($('home-dot')){ $('home-dot').style.background = "rgba(255,255,255,0.25)"; }
-      if($('home-status')){ $('home-status').textContent = "Hors ligne"; $('home-status').classList.remove('live'); }
     }
   }
   poll();
