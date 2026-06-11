@@ -750,6 +750,17 @@ document.getElementById('roster').innerHTML=ENTITIES.map((e,i)=>`
 const GUIDE=[
   {t:"DÉMARRAGE",h:`<p class="grad">Fractal Arena est un jeu idle de combat automatique connecté à la blockchain Fractal Bitcoin. Tu as besoin du wallet UniSat configuré sur le réseau Fractal Bitcoin. Au premier lancement, tu reçois automatiquement 2 000 $FRACTALARENA en airdrop et 1 000 de mises verrouillées (wallet avec au moins 1 tx on-chain requis).</p><p class="grad">Liquid — misable + retirable on-chain. &nbsp;|&nbsp; Locked — misable uniquement.</p>`},
   {t:"COMBAT",h:`<p class="grad">Sélectionne 3 entités, choisis un tier de mise, active BOUCLE COMBAT et laisse tourner. Le jeu joue tout seul en 3v3 automatique. Les ennemis matchent ta rareté et ton niveau, avec une variance de x0.94 à x1.10 sur leurs stats.</p><p class="grad">5 combats gratuits par jour — aucune mise requise.</p>`},
+  {t:"AFFINITÉS DE TYPE",h:`<p class="grad">Chaque entité a un type, et les 6 types forment une chaîne : chacun <b>domine</b> un type et se fait <b>dominer</b> par un autre. Tu infliges <span class="win">+25%</span> de dégâts au type que tu domines, et <span class="lose">−20%</span> au type qui te domine.</p>
+    <p style="text-align:center;font-family:'Orbitron',sans-serif;font-size:clamp(.72rem,2.4vw,.95rem);letter-spacing:1px;color:var(--c1-soft);margin:.6rem 0 .2rem">HashByte › Miner › Ledger › Network › Block › Genesis ↺</p>
+    <div class="scrollx"><table><thead><tr><th>Type</th><th>Domine</th><th>Dominé par</th></tr></thead><tbody>
+    <tr><td>HashByte</td><td class="win">Miner</td><td class="lose">Genesis</td></tr>
+    <tr><td>Miner</td><td class="win">Ledger</td><td class="lose">HashByte</td></tr>
+    <tr><td>Ledger</td><td class="win">Network</td><td class="lose">Miner</td></tr>
+    <tr><td>Network</td><td class="win">Block</td><td class="lose">Ledger</td></tr>
+    <tr><td>Block</td><td class="win">Genesis</td><td class="lose">Network</td></tr>
+    <tr><td>Genesis</td><td class="win">HashByte</td><td class="lose">Block</td></tr>
+    </tbody></table></div>
+    <p class="grad" style="margin-top:.7rem">Scoute l'équipe adverse, contre son type principal, et bascule une entité pour renverser le duel. En combat, les flèches ▲ / ▼ t'indiquent l'avantage en direct. Maintenant que le roster est équilibré, l'affinité fait souvent la différence — le counter-pick, c'est le vrai skill.</p>`},
   {t:"MISES ET GAINS",h:`<div class="scrollx"><table><thead><tr><th>Tier</th><th>Mise</th><th>Victoire</th><th>Défaite</th><th>Loop auto/jour</th></tr></thead><tbody>
     <tr><td style="color:#cd7f32">Bronze</td><td>10</td><td class="win">+7 (x1.7)</td><td class="lose">-10</td><td>Illimité</td></tr>
     <tr><td style="color:#c0c0c0">Silver</td><td>25</td><td class="win">+17 (x1.7)</td><td class="lose">-25</td><td>100</td></tr>
