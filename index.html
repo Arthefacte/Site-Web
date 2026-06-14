@@ -765,7 +765,7 @@ const GUIDE=[
     <tr><td style="color:#cd7f32">Bronze</td><td>10</td><td class="win">+7 (x1.7)</td><td class="lose">-10</td><td>Illimité</td></tr>
     <tr><td style="color:#c0c0c0">Silver</td><td>25</td><td class="win">+17 (x1.7)</td><td class="lose">-25</td><td>100</td></tr>
     <tr><td style="color:var(--c2)">Gold</td><td>50</td><td class="win">+35 (x1.7)</td><td class="lose">-50</td><td>50</td></tr>
-  </tbody></table></div><p class="grad" style="margin-top:.8rem;font-size:.92rem">Défaite : 1/3 brûlé définitivement · 1/3 pool de liquidité · 1/3 wallet airdrop. Au-delà du plafond, bascule automatique en Bronze. Les tickets (gagnés tous les 50 combats) prolongent Silver et Gold.</p>`},
+  </tbody></table></div><p class="grad" style="margin-top:.8rem;font-size:.92rem">Défaite : 1/3 verrouillé à vie en liquidité (LP brûlés) · 1/3 pool de liquidité · 1/3 wallet airdrop. Au-delà du plafond, bascule automatique en Bronze. Les tickets (gagnés tous les 50 combats) prolongent Silver et Gold.</p>`},
   {t:"ENTITÉS",h:`<p class="grad">Chaque victoire donne +50 XP à chaque entité. Au niveau 100, upgrade automatique de rareté.</p><p class="grad">Raretés : Common &lt; Rare &lt; Epic &lt; Legendary</p><p class="grad">Forge une nouvelle entité pour 20 000 $FRACTALARENA · 70% Common · 20% Rare · 8% Epic · 2% Legendary.</p>`},
   {t:"FORGE — FUSION & REROLL",h:`<p class="grad">La Forge permet d'améliorer tes entités en les fusionnant ou en redistribuant leurs stats de base.</p>
     <div class="subh">FUSION</div><p class="grad">Sacrifie 2 entités de même rareté pour tenter d'obtenir une entité de rareté supérieure. La bête principale (niveau le plus élevé) conserve son XP et son niveau. Le sacrifice est détruit dans tous les cas.</p>
@@ -781,7 +781,7 @@ const GUIDE=[
     <tr><td>Rare</td><td>3 000</td><td>4 500</td><td>6 750</td><td>9 000</td></tr>
     <tr><td>Epic</td><td>8 000</td><td>12 000</td><td>18 000</td><td>24 000</td></tr>
     <tr><td>Legendary</td><td>25 000</td><td>37 500</td><td>56 250</td><td>75 000</td></tr>
-    </tbody></table></div><p class="grad" style="margin-top:.7rem;font-size:.92rem">30 % de chaque fee Forge est brûlé définitivement.</p>`},
+    </tbody></table></div><p class="grad" style="margin-top:.7rem;font-size:.92rem">30 % de chaque fee Forge est verrouillé à vie en liquidité (LP brûlés).</p>`},
   {t:"DÉPÔT ET RETRAIT ON-CHAIN",h:`<p class="grad">Dépôt — Envoie des $FRACTALARENA depuis UniSat vers l'adresse Reward Pool affichée dans le jeu. Colle le TXID pour valider.</p>
     <div class="warn" style="margin:.7rem 0">⚠ N'utilise PAS InSwap pour effectuer un dépôt. Envoie directement depuis UniSat Wallet — les dépôts via swap ne sont pas détectés par le serveur et ne seront pas crédités.</div>
     <p class="grad">Retrait — Saisis le montant dans le jeu. Le backend envoie automatiquement une inscription BRC-20 TRANSFER vers ton wallet. Une fois reçue : UniSat → Inscriptions → Send → ta propre adresse pour finaliser.</p><p class="grad">Cooldown entre deux retraits : 24 heures.</p>`},
@@ -798,7 +798,7 @@ const GUIDE=[
     <tr><td>✦ Badge Holder</td><td style="text-align:left">Badge exclusif réservé aux détenteurs de $FRACTALARENA.</td></tr>
     </tbody></table></div>`},
   {t:"CAMPAGNE PVE",h:`<p class="grad">Mode Histoire : 6 mondes × 10 étages à travers l'univers Fractal Bitcoin. La difficulté est fixe par étage (elle monte avec le monde et l'étage) — ce sont les stats de ton équipe qui décident : monte tes entités en niveau, fusionne et reroll pour aller plus loin.</p><p class="grad">Récompenses : gagne des $FRACTALARENA verrouillés et des tickets. Argent = entrée campagne. Or = Forge premium (fusion 100%). 1 entrée gratuite par jour.</p><p class="grad">Les tickets Argent s'obtiennent via les milestones de l'arène (2 tous les 50 combats) et les 3 étoiles sur les étages.</p>`},
-  {t:"LE TOKEN $FRACTALARENA",h:`<p class="grad">Supply totale : 1 000 000 000 $FRACTALARENA sur Fractal Bitcoin (BRC-20). A chaque défaite payante, 1/3 des tokens misés sont brûlés définitivement — la supply diminue mécaniquement avec le temps.</p><p class="grad">Tradeable sur <a href="https://inswap.cc" target="_blank" style="color:var(--c1);-webkit-text-fill-color:var(--c1);text-decoration:none;font-weight:700">InSwap.cc</a> · Paire FB/FractalArena.</p>`}
+  {t:"LE TOKEN $FRACTALARENA",h:`<p class="grad">Supply totale : 1 000 000 000 $FRACTALARENA sur Fractal Bitcoin (BRC-20). A chaque défaite payante, 1/3 des tokens misés alimentent un burn de liquidité : une fois le seuil atteint, ils sont ajoutés à la liquidité puis les LP sont brûlés — la liquidité est alors verrouillée à vie et ne peut plus jamais être retirée par personne. Ces tokens quittent définitivement la circulation vendable.</p><p class="grad">Tradeable sur <a href="https://inswap.cc" target="_blank" style="color:var(--c1);-webkit-text-fill-color:var(--c1);text-decoration:none;font-weight:700">InSwap.cc</a> · Paire FB/FractalArena.</p>`}
 ];
 document.getElementById('guide').innerHTML=GUIDE.map((g,i)=>`
   <div class="guide-block">
@@ -878,7 +878,7 @@ resize();
   let burnEnds=null;
   function tickBurn(){const note=$('pl-burn-note');if(!note||!burnEnds)return;let d=Math.max(0,burnEnds-Date.now());
     const h=String(Math.floor(d/3.6e6)).padStart(2,'0'),m=String(Math.floor((d%3.6e6)/6e4)).padStart(2,'0'),s=String(Math.floor((d%6e4)/1000)).padStart(2,'0');
-    note.innerHTML='⏳ Burn dans '+h+':'+m+':'+s;}
+    note.innerHTML='⏳ Burn LP dans '+h+':'+m+':'+s;}
   setInterval(()=>{if(burnEnds)tickBurn();},1000);
   async function poll(){
     try{
@@ -890,11 +890,11 @@ resize();
       $('pl-burn-fill').style.width=Math.min(100,burn/(b.threshold||BURN)*100)+"%";setT($('pl-burn-sub'),nf.format(burn)+" / "+nf.format(b.threshold||BURN));
       setT($('pl-air-sub'),nf.format(air)+" / "+nf.format(AIR));$('pl-air-fill').style.width=Math.min(100,air/AIR*100)+"%";
       const note=$('pl-burn-note');burnEnds=null;
-      if(b.ready_to_burn){note.innerHTML="🔥 Seuil atteint — burn imminent";}
+      if(b.ready_to_burn){note.innerHTML="🔥 Seuil atteint — burn LP imminent (liquidité verrouillée à vie)";}
       else if(b.threshold_reached&&b.countdown_ends_at){burnEnds=new Date(b.countdown_ends_at).getTime();tickBurn();}
       else if(b.last_burn&&b.last_burn.at){const lb=b.last_burn,d=new Date(lb.at).toLocaleDateString('fr-FR',{day:'2-digit',month:'short'});
-        note.innerHTML="Dernier burn : "+(lb.amount!=null?nf.format(lb.amount)+" ":"")+"$FA · "+d+" · <a target='_blank' rel='noopener' href='"+DEX_BURN_URL+"'>voir sur le DEX</a>";}
-      else{note.innerHTML="";}
+        note.innerHTML="🔒 Dernier burn LP : "+(lb.amount!=null?nf.format(lb.amount)+" $FA → ":"")+"liquidité verrouillée à vie · "+d+" · <a target='_blank' rel='noopener' href='"+DEX_BURN_URL+"'>voir sur InSwap</a>";}
+      else{note.innerHTML="🔒 À chaque seuil : liquidité ajoutée puis LP brûlés — verrouillée à vie sur InSwap.";}
       const on=j.players?.online||0,pl=j.players?.total||0,cb=j.players?.total_combats||0;
       countTo($('pl-online'),on);countTo($('pl-players'),pl);countTo($('pl-combats'),cb);countTo($('pl-deposits'),j.deposits?.total_amount||0);
       countTo($('h-online'),on);countTo($('h-players'),pl);countTo($('h-combats'),cb);
