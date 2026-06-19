@@ -3,11 +3,65 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Arthefacte Games</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://fractal-arena-server-production.up.railway.app; base-uri 'self'; form-action 'none'; object-src 'none'"/>
+
+<title>Arthefacte Games — Jeux indépendants on-chain sur Fractal Bitcoin</title>
+<meta name="description" content="Studio indépendant de jeux connectés à la blockchain Fractal Bitcoin, avec une économie réelle et transparente. Découvre Fractal Arena : combat 3v3 idle + campagne PvE."/>
+<link rel="canonical" href="https://arthefacte.com/"/>
+<meta name="theme-color" content="#06070c"/>
+
+<!-- Favicons -->
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png"/>
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png"/>
+
+<!-- Open Graph -->
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="Arthefacte Games"/>
+<meta property="og:locale" content="fr_FR"/>
+<meta property="og:url" content="https://arthefacte.com/"/>
+<meta property="og:title" content="Arthefacte Games — Jeux indépendants on-chain sur Fractal Bitcoin"/>
+<meta property="og:description" content="Studio indépendant de jeux connectés à Fractal Bitcoin. Économie réelle, transparente, on-chain. Joue à Fractal Arena."/>
+<meta property="og:image" content="https://arthefacte.com/assets/og.jpg"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:site" content="@Arthefacte"/>
+<meta name="twitter:title" content="Arthefacte Games — Jeux indépendants on-chain sur Fractal Bitcoin"/>
+<meta name="twitter:description" content="Studio indépendant de jeux connectés à Fractal Bitcoin. Économie réelle, transparente, on-chain. Joue à Fractal Arena."/>
+<meta name="twitter:image" content="https://arthefacte.com/assets/og.jpg"/>
+
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-<script src="image-slot.js"></script>
+<script src="image-slot.js" defer></script>
+
+<!-- Données structurées -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Arthefacte Games",
+  "url": "https://arthefacte.com/",
+  "logo": "https://arthefacte.com/assets/LOGO.webp",
+  "description": "Studio indépendant de jeux connectés à la blockchain Fractal Bitcoin.",
+  "sameAs": ["https://x.com/Arthefacte","https://t.me/Arthefacte","https://github.com/Arthefacte"]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "name": "Fractal Arena",
+  "url": "https://fractalarena.com",
+  "image": "https://arthefacte.com/assets/og.jpg",
+  "description": "Combat 3v3 idle + mode Campagne PvE (6 mondes × 10 étages) sur Fractal Bitcoin.",
+  "genre": ["Idle","Strategy","PvE"],
+  "gamePlatform": ["Web browser"],
+  "publisher": {"@type": "Organization", "name": "Arthefacte Games"}
+}
+</script>
 <style>
 /* ============ TOKENS ============ */
 :root{
@@ -22,8 +76,8 @@
   --line:rgba(255,255,255,0.08);
   --line-2:rgba(255,255,255,0.14);
   --ink:#e8ebf2;
-  --ink-dim:rgba(232,235,242,0.55);
-  --ink-faint:rgba(232,235,242,0.34);
+  --ink-dim:rgba(232,235,242,0.72);
+  --ink-faint:rgba(232,235,242,0.5);
   --live:#23E27A;
   --radius:14px;
   --maxw:1080px;
@@ -37,6 +91,11 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
+.skip-link{position:absolute;left:-9999px;top:0;z-index:999;background:var(--c1);color:#06070c;
+  padding:.6rem 1rem;border-radius:0 0 8px 0;font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;
+  text-decoration:none;letter-spacing:1px}
+.skip-link:focus{left:0}
+:focus-visible{outline:2px solid var(--c1);outline-offset:3px;border-radius:4px}
 body{
   font-family:'Rajdhani',sans-serif;background:var(--bg);color:var(--ink);
   overflow-x:hidden;-webkit-font-smoothing:antialiased;
@@ -140,7 +199,7 @@ nav{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-con
 /* ============ HERO ============ */
 .hero{position:relative;text-align:center;padding:clamp(3.5rem,9vw,7rem) 1rem clamp(2.5rem,5vw,4rem)}
 .fa-bg{position:absolute;inset:0;z-index:-1;pointer-events:none;
-  background:linear-gradient(180deg,rgba(6,7,12,.45),rgba(6,7,12,.66) 50%,rgba(6,7,12,.95) 85%,var(--bg)),url('assets/BACKGROUND.png') center 12%/cover no-repeat;
+  background:linear-gradient(180deg,rgba(6,7,12,.45),rgba(6,7,12,.66) 50%,rgba(6,7,12,.95) 85%,var(--bg)),url('assets/BACKGROUND.webp') center 12%/cover no-repeat;
   transform:scale(1.04);animation:bgDrift calc(34s / var(--anim,1)) ease-in-out infinite}
 @keyframes bgDrift{50%{transform:scale(1.12) translateY(-1.5%)}}
 body[data-motion="off"] .fa-bg{animation:none}
@@ -415,10 +474,11 @@ body[data-motion="off"] *{animation:none!important}
 </style>
 </head>
 <body data-grad="all" data-card="glass">
+<a href="#page-home" class="skip-link">Aller au contenu</a>
 
-<canvas id="bg-canvas"></canvas>
+<canvas id="bg-canvas" aria-hidden="true"></canvas>
 <div id="bg-aurora"></div>
-<video id="fa-video" muted loop playsinline preload="none" poster="assets/BACKGROUND.png">
+<video id="fa-video" muted loop playsinline preload="none" poster="assets/BACKGROUND.webp">
   <source src="assets/fa-bg.mp4" type="video/mp4"/>
 </video>
 <div id="fa-veil"></div>
@@ -435,18 +495,18 @@ body[data-motion="off"] *{animation:none!important}
   <ul class="nav-links">
     <li class="dropdown">
       <button class="dropdown-toggle" id="dd-toggle" onclick="toggleDropdown(event)"><span class="grad vivid">Jeux</span> <span class="arrow">▼</span></button>
-      <div class="dropdown-menu" id="dd-menu">
-        <div class="dropdown-item" onclick="showPage('fractal')">FRACTAL ARENA <span class="dot" style="background:var(--live);box-shadow:0 0 8px var(--live)"></span></div>
-        <div class="dropdown-item disabled">HASHBYTE RUNNER — prochain jeu</div>
+      <div class="dropdown-menu" id="dd-menu" role="menu">
+        <div class="dropdown-item" role="button" tabindex="0" onclick="showPage('fractal')">FRACTAL ARENA <span class="dot" style="background:var(--live);box-shadow:0 0 8px var(--live)"></span></div>
+        <div class="dropdown-item disabled" aria-disabled="true">HASHBYTE RUNNER — prochain jeu</div>
       </div>
     </li>
-    <li><a onclick="showPage('about')"><span class="grad vivid">About</span></a></li>
-    <li><a href="https://fractal-arena-server-production.up.railway.app/dashboard" target="_blank"><span class="grad vivid">Dashboard</span></a></li>
+    <li><a role="button" tabindex="0" onclick="showPage('about')"><span class="grad vivid">About</span></a></li>
+    <li><a href="https://fractal-arena-server-production.up.railway.app/dashboard" target="_blank" rel="noopener"><span class="grad vivid">Dashboard</span></a></li>
   </ul>
 </nav>
 
 <!-- ===================== HOME ===================== -->
-<div id="page-home" class="page active">
+<div id="page-home" class="page active" tabindex="-1">
   <section class="hero">
     <div class="eyebrow grad"><span class="ln"></span>Jeux indépendants · Solo Dev · France<span class="ln r"></span></div>
     <h1>
@@ -467,9 +527,9 @@ body[data-motion="off"] *{animation:none!important}
         <div class="h2 grad vivid" style="font-size:clamp(1.3rem,3.4vw,1.9rem)">Rejoins l'aventure</div>
       </div>
       <div class="contact-links">
-        <a class="clink icon" href="https://x.com/Arthefacte" target="_blank" rel="noopener"><img src="assets/x.png" alt="X"/><span class="txt"><b>X / Twitter</b><span>@Arthefacte</span></span></a>
-        <a class="clink icon" href="https://t.me/Arthefacte" target="_blank" rel="noopener"><img src="assets/telegram.png" alt="Telegram"/><span class="txt"><b>Telegram</b><span>@Arthefacte</span></span></a>
-        <a class="clink icon" href="https://unisat.io/download" target="_blank" rel="noopener"><img src="assets/unisat.png" alt="UniSat"/><span class="txt"><b>UniSat Wallet</b><span>Télécharger pour jouer</span></span></a>
+        <a class="clink icon" href="https://x.com/Arthefacte" target="_blank" rel="noopener"><img src="assets/x.png" width="30" height="30" alt="X"/><span class="txt"><b>X / Twitter</b><span>@Arthefacte</span></span></a>
+        <a class="clink icon" href="https://t.me/Arthefacte" target="_blank" rel="noopener"><img src="assets/telegram.png" width="30" height="30" alt="Telegram"/><span class="txt"><b>Telegram</b><span>@Arthefacte</span></span></a>
+        <a class="clink icon" href="https://unisat.io/download" target="_blank" rel="noopener"><img src="assets/unisat.webp" width="30" height="30" alt="UniSat"/><span class="txt"><b>UniSat Wallet</b><span>Télécharger pour jouer</span></span></a>
       </div>
     </div>
   </section>
@@ -478,13 +538,13 @@ body[data-motion="off"] *{animation:none!important}
     <div class="kicker grad">Catalogue</div>
     <div class="h2 grad vivid">Mes jeux</div>
     <div class="games">
-      <article class="game-card reveal" onclick="showPage('fractal')">
-        <div class="card-art"><img src="assets/BACKGROUND.png" alt="Fractal Arena"/></div>
+      <article class="game-card reveal" role="button" tabindex="0" aria-label="Ouvrir Fractal Arena" onclick="showPage('fractal')">
+        <div class="card-art"><img src="assets/BACKGROUND.webp" width="800" height="350" alt="Fractal Arena"/></div>
         <div class="sheen"></div>
         <div class="body">
           <div class="game-head">
             <div class="game-id">
-              <img class="game-logo" src="assets/LOGO.png" alt="Fractal Arena"/>
+              <img class="game-logo" src="assets/LOGO.webp" width="50" height="50" alt="Fractal Arena"/>
               <div>
                 <div class="game-title grad vivid">FRACTAL ARENA</div>
                 <span class="status live"><span class="dot"></span>Beta live</span>
@@ -529,8 +589,8 @@ body[data-motion="off"] *{animation:none!important}
       <h1 class="grad vivid">FRACTAL ARENA</h1>
       <p class="meta">Combat 3v3 idle · 6 entités · Fractal Bitcoin · Beta live</p>
       <div class="actions">
-        <a class="btn btn-primary" href="https://fractalarena.com" target="_blank"><span class="pulse"></span>Jouer maintenant</a>
-        <a class="btn btn-token" href="https://inswap.cc" target="_blank" rel="noopener"><img class="btn-token-logo" src="assets/LOGO.png" alt=""/>$FRACTALARENA</a>
+        <a class="btn btn-primary" href="https://fractalarena.com" target="_blank" rel="noopener"><span class="pulse"></span>Jouer maintenant</a>
+        <a class="btn btn-token" href="https://inswap.cc" target="_blank" rel="noopener"><img class="btn-token-logo" src="assets/LOGO.webp" width="20" height="20" alt=""/>$FRACTALARENA</a>
       </div>
       <div class="warn">⚠️ Le wallet doit avoir au moins 1 transaction on-chain pour être éligible à l'airdrop de 2000 $FRACTALARENA.</div>
       <div class="warn" style="margin-top:.6rem">🖥️ Pour jouer : ordinateur avec l'extension UniSat. Version mobile bientôt disponible.</div>
@@ -604,8 +664,8 @@ body[data-motion="off"] *{animation:none!important}
         <span class="role">Solo Dev · France</span>
         <p>Développeur indépendant, je conçois et code seul des jeux connectés à la blockchain Fractal Bitcoin. Mon objectif : des jeux où l'économie est réelle, transparente et on-chain — pas de monnaie factice, chaque token a une valeur. Fractal Arena est le premier de la série.</p>
         <div class="links">
-          <a class="foot-btn gh" href="https://github.com/Arthefacte" target="_blank"><img src="assets/github.png" alt=""/>GitHub</a>
-          <a class="foot-btn" href="https://fractalarena.com" target="_blank">Jouer</a>
+          <a class="foot-btn gh" href="https://github.com/Arthefacte" target="_blank" rel="noopener"><img src="assets/github.png" width="15" height="15" alt=""/>GitHub</a>
+          <a class="foot-btn" href="https://fractalarena.com" target="_blank" rel="noopener">Jouer</a>
         </div>
       </div>
     </div>
@@ -620,7 +680,7 @@ body[data-motion="off"] *{animation:none!important}
       <span class="name grad vivid">ARTHEFACTE GAMES</span>
     </button>
     <div class="foot-links">
-      <a class="foot-btn gh" href="https://github.com/Arthefacte" target="_blank"><img src="assets/github.png" alt=""/>GitHub</a>
+      <a class="foot-btn gh" href="https://github.com/Arthefacte" target="_blank" rel="noopener"><img src="assets/github.png" width="15" height="15" alt=""/>GitHub</a>
     </div>
     <small>© <span id="yr"></span> Arthefacte Games · Jeux indépendants connectés à Fractal Bitcoin</small>
   </div>
@@ -725,19 +785,27 @@ function closeDropdown(){
 document.addEventListener('click',e=>{if(!e.target.closest('.dropdown'))closeDropdown();});
 document.getElementById('yr').textContent=new Date().getFullYear();
 
+/* ===== ACCESSIBILITÉ CLAVIER ===== */
+/* Enter / Espace déclenchent les éléments role="button" non natifs (cartes, items menu, liens d'action) */
+document.addEventListener('keydown',e=>{
+  if(e.key!=='Enter'&&e.key!==' ')return;
+  const t=e.target.closest&&e.target.closest('[role="button"]');
+  if(t){e.preventDefault();t.click();}
+});
+
 /* ===== ROSTER ===== */
 const ENTITIES=[
-  {n:"NETWORK", img:"assets/NETWORK.png", r:"Legendary",rare:"legend",c:"var(--r-legend)"},
-  {n:"GENESIS", img:"assets/GENESIS.png", r:"Epic",     rare:"epic",  c:"var(--r-epic)"},
-  {n:"LEDGER",  img:"assets/LEDGER.png",  r:"Epic",     rare:"epic",  c:"var(--r-epic)"},
-  {n:"HASHBYTE",img:"assets/HASHBYTE.png",r:"Rare",     rare:"rare",  c:"var(--r-rare)"},
-  {n:"MINER",   img:"assets/MINER.png",   r:"Rare",     rare:"rare",  c:"var(--r-rare)"},
-  {n:"BLOCK",   img:"assets/BLOCK.png",   r:"Common",   rare:"common",c:"var(--r-common)"}
+  {n:"NETWORK", img:"assets/NETWORK.webp", r:"Legendary",rare:"legend",c:"var(--r-legend)"},
+  {n:"GENESIS", img:"assets/GENESIS.webp", r:"Epic",     rare:"epic",  c:"var(--r-epic)"},
+  {n:"LEDGER",  img:"assets/LEDGER.webp",  r:"Epic",     rare:"epic",  c:"var(--r-epic)"},
+  {n:"HASHBYTE",img:"assets/HASHBYTE.webp",r:"Rare",     rare:"rare",  c:"var(--r-rare)"},
+  {n:"MINER",   img:"assets/MINER.webp",   r:"Rare",     rare:"rare",  c:"var(--r-rare)"},
+  {n:"BLOCK",   img:"assets/BLOCK.webp",   r:"Common",   rare:"common",c:"var(--r-common)"}
 ];
 document.getElementById('roster').innerHTML=ENTITIES.map((e,i)=>`
   <div class="ent ${e.rare==='legend'?'legend':''}" style="--ec:${e.c}">
     <div class="frame">
-      <img src="${e.img}" alt="${e.n}" loading="lazy"/>
+      <img src="${e.img}" width="512" height="512" alt="Entité ${e.n}" loading="lazy"/>
       <div class="aura"></div>
     </div>
     <div class="body">
