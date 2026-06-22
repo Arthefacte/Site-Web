@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; connect-src 'self' blob: https://fractal-arena-server-production.up.railway.app; base-uri 'self'; form-action 'none'; object-src 'none'"/>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; connect-src 'self' blob: https://fractal-arena-server-production.up.railway.app; base-uri 'self'; form-action 'none'; object-src 'none'"/>
 
 <title>Arthefacte Games — Jeux indépendants on-chain sur Fractal Bitcoin</title>
 <meta name="description" content="Studio indépendant de jeux connectés à la blockchain Fractal Bitcoin, avec une économie réelle et transparente. Découvre Fractal Arena : combat 3v3 idle + campagne PvE."/>
@@ -36,12 +36,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <script src="image-slot.js" defer></script>
-
-<!-- Three.js (emblème 3D de la page Fractal Arena) -->
-<link rel="preconnect" href="https://unpkg.com" crossorigin/>
-<script type="importmap">
-{ "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js", "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/" } }
-</script>
 
 <!-- Données structurées -->
 <script type="application/ld+json">
@@ -310,7 +304,6 @@ body[data-card="outline"] .game-card{background:transparent}
 .subhero-fa .subhero{border-bottom:none}
 .subhero-fa .subhero h1{filter:drop-shadow(0 3px 22px rgba(0,0,0,.6))}
 .subhero-fa .meta{text-shadow:0 1px 12px rgba(0,0,0,.75)}
-#fa-emblem3d{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);width:min(40vmin,320px);height:min(40vmin,320px);z-index:1;pointer-events:none;filter:drop-shadow(0 8px 34px rgba(0,0,0,.55))}
 .subhero-fa .subhero{position:relative;z-index:2}
 .subhero h1{font-family:'Orbitron',sans-serif;font-size:clamp(2rem,6vw,3.4rem);font-weight:900;letter-spacing:.04em;line-height:1}
 .subhero .meta{font-size:1.05rem;font-weight:500;color:var(--ink-dim);margin:.9rem 0 1.6rem}
@@ -592,7 +585,6 @@ body[data-motion="off"] *{animation:none!important}
 <!-- ===================== FRACTAL ARENA ===================== -->
 <div id="page-fractal" class="page">
   <section class="subhero-fa">
-    <canvas id="fa-emblem3d" aria-hidden="true"></canvas>
     <div class="subhero wrap">
       <button class="back" onclick="showPage('home')">← Retour</button>
       <h1 class="grad vivid">FRACTAL ARENA</h1>
@@ -1014,68 +1006,6 @@ window.parent&&window.parent.postMessage({type:'__edit_mode_available'},'*');
 /* ===== BOOT ===== */
 applyTweaks();
 initReveal();
-</script>
-<!-- ===== Emblème 3D Fractal Arena (chargé seulement quand la page FA est visible) ===== -->
-<script type="module">
-(() => {
-  const canvas = document.getElementById('fa-emblem3d');
-  if (!canvas) return;
-  let started = false, raf = 0, renderer, scene, camera, group, rim, clock;
-  const visible = () => document.body.classList.contains('fa-active') && canvas.clientWidth > 0;
-  async function init() {
-    started = true;
-    try {
-      const THREE = await import('three');
-      const { GLTFLoader } = await import('three/addons/loaders/GLTFLoader.js');
-      const { RoomEnvironment } = await import('three/addons/environments/RoomEnvironment.js');
-      const dpr = Math.min(2, window.devicePixelRatio || 1);
-      renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-      renderer.setPixelRatio(dpr);
-      renderer.outputColorSpace = THREE.SRGBColorSpace;
-      renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      renderer.toneMappingExposure = 1.15;
-      scene = new THREE.Scene();
-      camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
-      camera.position.set(0, 0, 6);
-      const pmrem = new THREE.PMREMGenerator(renderer);
-      scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-      const key = new THREE.DirectionalLight(0xffffff, 2.4); key.position.set(2.5, 3, 4); scene.add(key);
-      rim = new THREE.DirectionalLight(0x00f0ff, 1.4); rim.position.set(-3, 1.5, -2.5); scene.add(rim);
-      scene.add(new THREE.AmbientLight(0xbfd8ff, 0.5));
-      group = new THREE.Group(); scene.add(group);
-      new GLTFLoader().load('assets/Emblem_optimise_12Mo.glb', (gltf) => {
-        const m1 = gltf.scene;
-        const box = new THREE.Box3().setFromObject(m1);
-        const size = box.getSize(new THREE.Vector3());
-        const center = box.getCenter(new THREE.Vector3());
-        const maxDim = Math.max(size.x, size.y, size.z) || 1;
-        m1.position.sub(center);
-        const dz = size.z * 0.22;
-        const w1 = new THREE.Group(); w1.add(m1); w1.rotation.y = Math.PI; w1.position.z = -dz;
-        const w2 = new THREE.Group(); w2.add(m1.clone()); w2.position.z = dz;
-        group.add(w1); group.add(w2);
-        group.scale.setScalar(2.6 / maxDim);
-      }, undefined, (e) => console.warn('GLB load error', e));
-      clock = new THREE.Clock();
-      const render = () => {
-        raf = requestAnimationFrame(render);
-        if (!visible()) return; // ne consomme rien quand la page FA n'est pas affichée
-        const w = canvas.clientWidth, h = canvas.clientHeight;
-        if (w && h && (canvas.width !== Math.round(w * dpr) || canvas.height !== Math.round(h * dpr))) {
-          renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
-        }
-        if (group) group.rotation.y = -clock.getElapsedTime() * (Math.PI * 2 / 11);
-        const tri = Math.abs(((clock.getElapsedTime() / 5) % 1) * 2 - 1);
-        if (rim) rim.color.setHSL(0.092 + (0.511 - 0.092) * tri, 1, 0.62);
-        renderer.render(scene, camera);
-      };
-      render();
-    } catch (e) { console.warn('three init failed', e); }
-  }
-  // Initialise dès la 1re fois que la page Fractal Arena devient visible (sinon on n'a rien chargé).
-  const wait = () => { if (visible()) init(); else if (!started) requestAnimationFrame(wait); };
-  requestAnimationFrame(wait);
-})();
 </script>
 </body>
 </html>
