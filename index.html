@@ -630,6 +630,12 @@ body[data-motion="off"] *{animation:none!important}
         <div class="pl-wallet">📬 <span id="pl-air-wallet">bc1q0a4c9lvtryn48exz2h4wupq8twy9r5880m5nr8</span></div>
         <div class="pl-bar"><div class="pl-fill" id="pl-air-fill"></div></div>
       </div>
+      <div class="pl-card" style="--pc:var(--c2-soft)">
+        <div class="pl-label">Buyback 🔄</div>
+        <div class="pl-amount" id="pl-buyback">—<small> $FA</small></div>
+        <div class="pl-sub" id="pl-buyback-sub">seuil 35 000</div>
+        <div class="pl-bar"><div class="pl-fill" id="pl-buyback-fill"></div></div>
+      </div>
     </div>
     <div class="pl-strip">
       <div class="pl-stat"><b id="pl-online">—</b><span>En ligne</span></div>
@@ -838,7 +844,7 @@ const GUIDE=[
     <tr><td style="color:#cd7f32">Bronze</td><td>10</td><td class="win">+7 (x1.7)</td><td class="lose">-10</td><td>Illimité</td></tr>
     <tr><td style="color:#c0c0c0">Silver</td><td>25</td><td class="win">+17 (x1.7)</td><td class="lose">-25</td><td>100</td></tr>
     <tr><td style="color:var(--c2)">Gold</td><td>50</td><td class="win">+35 (x1.7)</td><td class="lose">-50</td><td>50</td></tr>
-  </tbody></table></div><p class="grad" style="margin-top:.8rem;font-size:.92rem">Défaite : 1/3 verrouillé à vie en liquidité (LP brûlés) · 1/3 pool de liquidité · 1/3 wallet airdrop. Au-delà du plafond, bascule automatique en Bronze. Les tickets (gagnés tous les 50 combats) prolongent Silver et Gold.</p>`},
+  </tbody></table></div><p class="grad" style="margin-top:.8rem;font-size:.92rem">Défaite : les 25 FA de mise sont répartis entre 4 pools — 36% liquidité · 32% airdrop · 16% buyback · 16% burn. Au-delà du plafond, bascule automatique en Bronze. Les tickets (gagnés tous les 50 combats) prolongent Silver et Gold.</p>`},
   {t:"ENTITÉS",h:`<p class="grad">Chaque victoire donne +50 XP à chaque entité. Au niveau 100, upgrade automatique de rareté.</p><p class="grad">Raretés : Common &lt; Rare &lt; Epic &lt; Legendary</p><p class="grad">Forge une nouvelle entité pour 20 000 $FRACTALARENA · 70% Common · 20% Rare · 8% Epic · 2% Legendary.</p>`},
   {t:"FORGE — FUSION & REROLL",h:`<p class="grad">La Forge permet d'améliorer tes entités en les fusionnant ou en redistribuant leurs stats de base.</p>
     <div class="subh">FUSION</div><p class="grad">Sacrifie 2 entités de même rareté pour tenter d'obtenir une entité de rareté supérieure. La bête principale (niveau le plus élevé) conserve son XP et son niveau. Le sacrifice est détruit dans tous les cas.</p>
@@ -871,7 +877,8 @@ const GUIDE=[
     <tr><td>✦ Badge Holder</td><td style="text-align:left">Badge exclusif réservé aux détenteurs de $FRACTALARENA.</td></tr>
     </tbody></table></div>`},
   {t:"CAMPAGNE PVE",h:`<p class="grad">Mode Histoire : 6 mondes × 10 étages à travers l'univers Fractal Bitcoin. La difficulté est fixe par étage (elle monte avec le monde et l'étage) — ce sont les stats de ton équipe qui décident : monte tes entités en niveau, fusionne et reroll pour aller plus loin.</p><p class="grad">Récompenses : gagne des $FRACTALARENA verrouillés et des tickets. Argent = entrée campagne. Or = Forge premium (fusion 100%). 1 entrée gratuite par jour.</p><p class="grad">Les tickets Argent s'obtiennent via les milestones de l'arène (2 tous les 50 combats) et les 3 étoiles sur les étages.</p>`},
-  {t:"LE TOKEN $FRACTALARENA",h:`<p class="grad">Supply totale : 1 000 000 000 $FRACTALARENA sur Fractal Bitcoin (BRC-20). A chaque défaite payante, 1/3 des tokens misés alimentent un burn de liquidité : une fois le seuil atteint, ils sont ajoutés à la liquidité puis les LP sont brûlés — la liquidité est alors verrouillée à vie et ne peut plus jamais être retirée par personne. Ces tokens quittent définitivement la circulation vendable.</p><p class="grad">Tradeable sur <a href="https://inswap.cc" target="_blank" style="color:var(--c1);-webkit-text-fill-color:var(--c1);text-decoration:none;font-weight:700">InSwap.cc</a> · Paire FB/FractalArena.</p>`}
+  {t:"PVP — L'ARÈNE",h:`<p class="grad">Mode classé joueur contre joueur. Définis une équipe de défense (3 entités dans l'onglet Équipe), puis attaque les équipes des autres joueurs. Victoire = ELO monte, défaite = ELO descend.</p><p class="grad">4 ligues : Bronze → Argent → Or → Diamant. Chaque saison offre une dotation en $FRACTALARENA selon ton classement final. Entrée gratuite (limitée), en FA, ou avec un ticket Or.</p><p class="grad">Les revanches sont possibles contre un adversaire qui t'a battu.</p>`},
+  {t:"LE TOKEN $FRACTALARENA",h:`<p class="grad">Supply totale : 1 000 000 000 $FRACTALARENA sur Fractal Bitcoin (BRC-20). À chaque défaite payante, les 25 FA de mise sont répartis dans 4 pools : 36% liquidité, 32% airdrop, 16% buyback, 16% burn. Le buyback achète des tokens sur le marché puis les brûle — le burn les détruit directement. Les deux réduisent l'offre en circulation.</p><p class="grad">Tradeable sur <a href="https://inswap.cc" target="_blank" style="color:var(--c1);-webkit-text-fill-color:var(--c1);text-decoration:none;font-weight:700">InSwap.cc</a> · Paire FB/FractalArena.</p>`},
 ];
 document.getElementById('guide').innerHTML=GUIDE.map((g,i)=>`
   <div class="guide-block">
@@ -939,7 +946,7 @@ resize();
 (function(){
   const API="https://fractal-arena-server-production.up.railway.app";
   const DEX_BURN_URL="https://inswap.net/swap?t0=FractalArena&t1=sFB___000";
-  const LIQ=100000,BURN=50000,AIR=100000,POLL=5000;
+  const LIQ=100000,BURN=50000,AIR=100000,BUYBACK=35000,POLL=5000;
   const $=id=>document.getElementById(id);
   const nf=new Intl.NumberFormat('fr-FR');const shown={};
   function countTo(el,target){if(!el)return;const small=el.querySelector('small');const suf=small?small.outerHTML:'';
@@ -957,11 +964,12 @@ resize();
     try{
       const r=await fetch(API+"/stats",{cache:"no-store"});if(!r.ok)throw 0;const j=await r.json();
       $('pl-dot').style.background="var(--live)";$('pl-status').textContent="En direct";$('pl-status').style.color="var(--live)";
-      const liq=j.liquidity_pool?.total_amount||0,air=j.airdrop_pool?.total_amount||0,b=j.burn_pool||{},burn=b.total_amount||0;
-      countTo($('pl-liq'),liq);countTo($('pl-air'),air);countTo($('pl-burn'),burn);
+      const liq=j.liquidity_pool?.total_amount||0,air=j.airdrop_pool?.total_amount||0,b=j.burn_pool||{},burn=b.total_amount||0,bb=j.buyback_pool||{},buyback=bb.total_amount||0;
+      countTo($('pl-liq'),liq);countTo($('pl-air'),air);countTo($('pl-burn'),burn);countTo($('pl-buyback'),buyback);
       $('pl-liq-fill').style.width=Math.min(100,liq/LIQ*100)+"%";setT($('pl-liq-sub'),nf.format(liq)+" / "+nf.format(LIQ));
       $('pl-burn-fill').style.width=Math.min(100,burn/(b.threshold||BURN)*100)+"%";setT($('pl-burn-sub'),nf.format(burn)+" / "+nf.format(b.threshold||BURN));
-      setT($('pl-air-sub'),nf.format(air)+" / "+nf.format(AIR));$('pl-air-fill').style.width=Math.min(100,air/AIR*100)+"%";
+      setT($('pl-air-sub'),nf.format(air)+' / '+nf.format(AIR));$('pl-air-fill').style.width=Math.min(100,air/AIR*100)+'%';
+      $('pl-buyback-fill').style.width=Math.min(100,buyback/BUYBACK*100)+'%';setT($('pl-buyback-sub'),nf.format(buyback)+' / '+nf.format(BUYBACK));
       const note=$('pl-burn-note');burnEnds=null;
       if(b.ready_to_burn){note.innerHTML="🔥 Seuil atteint — burn LP imminent (liquidité verrouillée à vie)";}
       else if(b.threshold_reached&&b.countdown_ends_at){burnEnds=new Date(b.countdown_ends_at).getTime();tickBurn();}
