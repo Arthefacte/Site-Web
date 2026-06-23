@@ -635,6 +635,7 @@ body[data-motion="off"] *{animation:none!important}
         <div class="pl-amount" id="pl-buyback">—<small> $FA</small></div>
         <div class="pl-sub" id="pl-buyback-sub">seuil 35 000</div>
         <div class="pl-bar"><div class="pl-fill" id="pl-buyback-fill"></div></div>
+        <div class="pl-note" id="pl-buyback-note"></div>
       </div>
     </div>
     <div class="pl-strip">
@@ -976,6 +977,11 @@ resize();
       else if(b.last_burn&&b.last_burn.at){const lb=b.last_burn,d=new Date(lb.at).toLocaleDateString('fr-FR',{day:'2-digit',month:'short'});
         note.innerHTML="🔒 Dernier burn LP : "+(lb.amount!=null?nf.format(lb.amount)+" $FA → ":"")+"liquidité verrouillée à vie · "+d+" · <a target='_blank' rel='noopener' href='"+DEX_BURN_URL+"'>voir sur InSwap</a>";}
       else{note.innerHTML="🔒 À chaque seuil : liquidité ajoutée puis LP brûlés — verrouillée à vie sur InSwap.";}
+      const bnote=$('pl-buyback-note');
+      if(bb.ready_to_buyback){bnote.innerHTML="🔄 Seuil atteint — buyback imminent (achat + brûlage sur le marché)";}
+      else if(bb.last_buyback&&bb.last_buyback.at){const lb2=bb.last_buyback,d2=new Date(lb2.at).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'});
+        bnote.innerHTML="🔄 Dernier buyback : "+(lb2.amount!=null?nf.format(lb2.amount)+" $FA → ":"")+"brûlé · "+d2+" · <a target='_blank' rel='noopener' href='"+DEX_BURN_URL+"'>voir sur InSwap</a>";}
+      else{bnote.innerHTML="🔄 À chaque seuil : achat sur le marché puis brûlage — réduction de l'offre en circulation.";}
       const on=j.players?.online||0,pl=j.players?.total||0,cb=j.players?.total_combats||0;
       countTo($('pl-online'),on);countTo($('pl-players'),pl);countTo($('pl-combats'),cb);countTo($('pl-deposits'),j.deposits?.total_amount||0);
       countTo($('h-online'),on);countTo($('h-players'),pl);countTo($('h-combats'),cb);
