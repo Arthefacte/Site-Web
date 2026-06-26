@@ -617,7 +617,7 @@ body[data-motion="off"] *{animation:none!important}
         <div class="pl-bar"><div class="pl-fill" id="pl-liq-fill"></div></div>
       </div>
       <div class="pl-card" style="--pc:var(--c2)">
-        <div class="pl-label">Burn 🔥</div>
+        <div class="pl-label">Mega buyback 🔥</div>
         <div class="pl-amount" id="pl-burn">—<small> $FA</small></div>
         <div class="pl-sub" id="pl-burn-sub">seuil 50 000</div>
         <div class="pl-bar"><div class="pl-fill" id="pl-burn-fill"></div></div>
@@ -845,7 +845,7 @@ const GUIDE=[
     <tr><td style="color:#cd7f32">Bronze</td><td>10</td><td class="win">+7 (x1.7)</td><td class="lose">-10</td><td>Illimité</td></tr>
     <tr><td style="color:#c0c0c0">Silver</td><td>25</td><td class="win">+17 (x1.7)</td><td class="lose">-25</td><td>100</td></tr>
     <tr><td style="color:var(--c2)">Gold</td><td>50</td><td class="win">+35 (x1.7)</td><td class="lose">-50</td><td>50</td></tr>
-  </tbody></table></div><p class="grad" style="margin-top:.8rem;font-size:.92rem">Défaite : la mise est répartie entre 4 pools — 36% liquidité · 32% airdrop · 16% buyback · 16% burn. Au-delà du plafond, bascule automatique en Bronze. Les tickets (gagnés tous les 50 combats) prolongent Silver et Gold.</p>`},
+  </tbody></table></div><p class="grad" style="margin-top:.8rem;font-size:.92rem">Défaite : la mise est répartie entre 4 pools — 36% liquidité · 32% airdrop · 16% Mega buyback · 16% buyback. Au-delà du plafond, bascule automatique en Bronze. Les tickets (gagnés tous les 50 combats) prolongent Silver et Gold.</p>`},
   {t:"ENTITÉS",h:`<p class="grad">Chaque victoire donne +50 XP à chaque entité. Au niveau 100, upgrade automatique de rareté.</p><p class="grad">Raretés : Common &lt; Rare &lt; Epic &lt; Legendary</p><p class="grad">Forge une nouvelle entité pour 20 000 $FRACTALARENA · 70% Common · 20% Rare · 8% Epic · 2% Legendary.</p>`},
   {t:"TOTEM — CAPITAINE",h:`<p class="grad">Le Totem est un capitaine qui accompagne ton équipe de 3 entités. Un slot dédié est visible dans l'onglet Équipe.</p><p class="grad">6 paliers : Dormant → Hatchling → Fledgling → Ascendant → Sovereign → Ascended. Pour éveiller un Totem dormant, il faut détenir un seuil de FRACTALARENA.</p><p class="grad">Le Totem apporte une Aura qui booste ton équipe en combat : bonus aux entités du même type et bonus global. L'Aura gagne en puissance à chaque palier.</p><p class="grad">La progression se débloque via la fidélité (jours connectés), les victoires payantes et les mondes bouclés. Chaque palier débloque un art cosmétique unique dans la Galerie.</p><p class="grad">Invoquer ton Totem déclenche une cinématique 3D.</p>`},
   {t:"FORGE — FUSION & REROLL",h:`<p class="grad">La Forge permet d'améliorer tes entités en les fusionnant ou en redistribuant leurs stats de base.</p>
@@ -880,7 +880,7 @@ const GUIDE=[
     </tbody></table></div>`},
   {t:"CAMPAGNE PVE",h:`<p class="grad">Mode Histoire : 6 mondes × 10 étages à travers l'univers Fractal Bitcoin. La difficulté est fixe par étage (elle monte avec le monde et l'étage) — ce sont les stats de ton équipe qui décident : monte tes entités en niveau, fusionne et reroll pour aller plus loin.</p><p class="grad">Récompenses : gagne des $FRACTALARENA verrouillés et des tickets. Argent = entrée campagne. Or = Forge premium (fusion 100%). 1 entrée gratuite par jour.</p><p class="grad">Les tickets Argent s'obtiennent via les milestones de l'arène (2 tous les 50 combats) et les 3 étoiles sur les étages.</p>`},
   {t:"PVP — L'ARÈNE",h:`<p class="grad">Mode classé joueur contre joueur. Définis une équipe de défense (3 entités dans l'onglet Équipe), puis attaque les équipes des autres joueurs. Victoire = ELO monte, défaite = ELO descend.</p><p class="grad">4 ligues : Bronze → Argent → Or → Diamant. Chaque saison offre une dotation en $FRACTALARENA selon ton classement final. Entrée gratuite (limitée), en FA, ou avec un ticket Or.</p><p class="grad">Les revanches sont possibles contre un adversaire qui t'a battu.</p>`},
-  {t:"LE TOKEN $FRACTALARENA",h:`<p class="grad">Supply totale : 1 000 000 000 $FRACTALARENA sur Fractal Bitcoin (BRC-20). À chaque défaite payante, la mise est répartie dans 4 pools : 36% liquidité, 32% airdrop, 16% buyback, 16% burn. Le buyback achète des tokens sur le marché puis les brûle — le burn les détruit directement. Les deux réduisent l'offre en circulation.</p><p class="grad">Tradeable sur <a href="https://inswap.cc" target="_blank" style="color:var(--c1);-webkit-text-fill-color:var(--c1);text-decoration:none;font-weight:700">InSwap.cc</a> · Paire FB/FractalArena.</p>`},
+  {t:"LE TOKEN $FRACTALARENA",h:`<p class="grad">Supply totale : 1 000 000 000 $FRACTALARENA sur Fractal Bitcoin (BRC-20). À chaque défaite payante, la mise est répartie dans 4 pools : 36% liquidité, 32% airdrop, 16% Mega buyback, 16% buyback. Le buyback achète des tokens sur le marché puis les brûle — le Mega buyback verrouille la liquidité à vie (LP brûlés). Les deux réduisent l'offre en circulation.</p><p class="grad">Tradeable sur <a href="https://inswap.cc" target="_blank" style="color:var(--c1);-webkit-text-fill-color:var(--c1);text-decoration:none;font-weight:700">InSwap.cc</a> · Paire FB/FractalArena.</p>`},
 ];
 document.getElementById('guide').innerHTML=GUIDE.map((g,i)=>`
   <div class="guide-block">
@@ -973,10 +973,10 @@ resize();
       setT($('pl-air-sub'),nf.format(air)+' / '+nf.format(AIR));$('pl-air-fill').style.width=Math.min(100,air/AIR*100)+'%';
       $('pl-buyback-fill').style.width=Math.min(100,buyback/BUYBACK*100)+'%';setT($('pl-buyback-sub'),nf.format(buyback)+' / '+nf.format(BUYBACK));
       const note=$('pl-burn-note');burnEnds=null;
-      if(b.ready_to_burn){note.innerHTML="🔥 Seuil atteint — burn LP imminent (liquidité verrouillée à vie)";}
+      if(b.ready_to_burn){note.innerHTML="🔥 Seuil atteint — Mega buyback imminent (liquidité verrouillée à vie)";}
       else if(b.threshold_reached&&b.countdown_ends_at){burnEnds=new Date(b.countdown_ends_at).getTime();tickBurn();}
       else if(b.last_burn&&b.last_burn.at){const lb=b.last_burn,d=new Date(lb.at).toLocaleDateString('fr-FR',{day:'2-digit',month:'short'});
-        note.innerHTML="🔒 Dernier burn LP : "+(lb.amount!=null?nf.format(lb.amount)+" $FA → ":"")+"liquidité verrouillée à vie · "+d+" · <a target='_blank' rel='noopener' href='"+DEX_BURN_URL+"'>voir sur InSwap</a>";}
+        note.innerHTML="🔒 Dernier Mega buyback : "+(lb.amount!=null?nf.format(lb.amount)+" $FA → ":"")+"liquidité verrouillée à vie · "+d+" · <a target='_blank' rel='noopener' href='"+DEX_BURN_URL+"'>voir sur InSwap</a>";}
       else{note.innerHTML="🔒 À chaque seuil : liquidité ajoutée puis LP brûlés — verrouillée à vie sur InSwap.";}
       const bnote=$('pl-buyback-note');
       if(bb.ready_to_buyback){bnote.innerHTML="🔄 Seuil atteint — buyback imminent (achat + brûlage sur le marché)";}
