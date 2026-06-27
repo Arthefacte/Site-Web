@@ -971,7 +971,7 @@ resize();
       $('pl-liq-fill').style.width=Math.min(100,liq/LIQ*100)+"%";setT($('pl-liq-sub'),nf.format(liq)+" / "+nf.format(LIQ));
       $('pl-burn-fill').style.width=Math.min(100,burn/(b.threshold||BURN)*100)+"%";setT($('pl-burn-sub'),nf.format(burn)+" / "+nf.format(b.threshold||BURN));
       setT($('pl-air-sub'),nf.format(air)+' / '+nf.format(AIR));$('pl-air-fill').style.width=Math.min(100,air/AIR*100)+'%';
-      $('pl-buyback-fill').style.width=Math.min(100,buyback/BUYBACK*100)+'%';setT($('pl-buyback-sub'),nf.format(buyback)+' / '+nf.format(BUYBACK));
+      $('pl-buyback-fill').style.width=Math.min(100,buyback/(bb.threshold||BUYBACK)*100)+'%';setT($('pl-buyback-sub'),nf.format(buyback)+' / '+nf.format(bb.threshold||BUYBACK));
       const note=$('pl-burn-note');burnEnds=null;
       if(b.ready_to_burn){note.innerHTML="🔥 Seuil atteint — Mega buyback imminent (liquidité verrouillée à vie)";}
       else if(b.threshold_reached&&b.countdown_ends_at){burnEnds=new Date(b.countdown_ends_at).getTime();tickBurn();}
