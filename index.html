@@ -607,35 +607,37 @@ body[data-motion="off"] *{animation:none!important}
       <span class="dot" id="pl-dot" style="background:rgba(255,255,255,.25)"></span>
       <span id="pl-status" style="font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-dim)">Connexion…</span>
     </div>
-    <div class="h2 grad vivid">Pools en direct</div>
+    <div class="h2 grad vivid">Rachat en direct</div>
+    <p class="sub" style="margin:.5rem 0 0">100 % de chaque mise perdue et de chaque forge rachète $FRACTALARENA sur le marché, réparti à parts égales sur 4 paliers — puis verrouillé à vie (LP-lock).</p>
+    <div class="pl-wallet" style="margin:.6rem 0 0">📬 Wallet de rachat <span id="pl-bb-wallet">bc1qg208dw4ms36t74cqf7lenr4gzs5m5rhr3wx90s</span></div>
     <div class="pl-grid">
       <div class="pl-card" style="--pc:var(--c1)">
-        <div class="pl-label">Pool de liquidité</div>
-        <div class="pl-amount" id="pl-liq">—<small> $FA</small></div>
-        <div class="pl-sub" id="pl-liq-sub">seuil 100 000</div>
-        <div class="pl-wallet">📬 <span id="pl-liq-wallet">bc1qe6xj6xr42cgd0r8n73qf7l36uhmn9gutp25hg0</span></div>
-        <div class="pl-bar"><div class="pl-fill" id="pl-liq-fill"></div></div>
+        <div class="pl-label">Rachat · 5 000</div>
+        <div class="pl-amount" id="pl-p0">—<small> $FA</small></div>
+        <div class="pl-sub" id="pl-p0-sub">seuil 5 000</div>
+        <div class="pl-bar"><div class="pl-fill" id="pl-p0-fill"></div></div>
+        <div class="pl-note" id="pl-p0-note"></div>
       </div>
       <div class="pl-card" style="--pc:var(--c2)">
-        <div class="pl-label">Mega buyback 🔥</div>
-        <div class="pl-amount" id="pl-burn">—<small> $FA</small></div>
-        <div class="pl-sub" id="pl-burn-sub">seuil 50 000</div>
-        <div class="pl-bar"><div class="pl-fill" id="pl-burn-fill"></div></div>
-        <div class="pl-note" id="pl-burn-note"></div>
+        <div class="pl-label">Rachat · 10 000</div>
+        <div class="pl-amount" id="pl-p1">—<small> $FA</small></div>
+        <div class="pl-sub" id="pl-p1-sub">seuil 10 000</div>
+        <div class="pl-bar"><div class="pl-fill" id="pl-p1-fill"></div></div>
+        <div class="pl-note" id="pl-p1-note"></div>
       </div>
       <div class="pl-card" style="--pc:var(--live)">
-        <div class="pl-label">Pool airdrop</div>
-        <div class="pl-amount" id="pl-air">—<small> $FA</small></div>
-        <div class="pl-sub" id="pl-air-sub">seuil 100 000</div>
-        <div class="pl-wallet">📬 <span id="pl-air-wallet">bc1q0a4c9lvtryn48exz2h4wupq8twy9r5880m5nr8</span></div>
-        <div class="pl-bar"><div class="pl-fill" id="pl-air-fill"></div></div>
+        <div class="pl-label">Rachat · 25 000</div>
+        <div class="pl-amount" id="pl-p2">—<small> $FA</small></div>
+        <div class="pl-sub" id="pl-p2-sub">seuil 25 000</div>
+        <div class="pl-bar"><div class="pl-fill" id="pl-p2-fill"></div></div>
+        <div class="pl-note" id="pl-p2-note"></div>
       </div>
       <div class="pl-card" style="--pc:var(--c2-soft)">
-        <div class="pl-label">Buyback 🔄</div>
-        <div class="pl-amount" id="pl-buyback">—<small> $FA</small></div>
-        <div class="pl-sub" id="pl-buyback-sub">seuil 35 000</div>
-        <div class="pl-bar"><div class="pl-fill" id="pl-buyback-fill"></div></div>
-        <div class="pl-note" id="pl-buyback-note"></div>
+        <div class="pl-label">Rachat · 50 000</div>
+        <div class="pl-amount" id="pl-p3">—<small> $FA</small></div>
+        <div class="pl-sub" id="pl-p3-sub">seuil 50 000</div>
+        <div class="pl-bar"><div class="pl-fill" id="pl-p3-fill"></div></div>
+        <div class="pl-note" id="pl-p3-note"></div>
       </div>
     </div>
     <div class="pl-strip">
@@ -845,7 +847,7 @@ const GUIDE=[
     <tr><td style="color:#cd7f32">Bronze</td><td>10</td><td class="win">+7 (x1.7)</td><td class="lose">-10</td><td>Illimité</td></tr>
     <tr><td style="color:#c0c0c0">Silver</td><td>25</td><td class="win">+17 (x1.7)</td><td class="lose">-25</td><td>100</td></tr>
     <tr><td style="color:var(--c2)">Gold</td><td>50</td><td class="win">+35 (x1.7)</td><td class="lose">-50</td><td>50</td></tr>
-  </tbody></table></div><p class="grad" style="margin-top:.8rem;font-size:.92rem">Défaite : la mise est répartie entre 4 pools — 36% liquidité · 32% airdrop · 16% Mega buyback · 16% buyback. Au-delà du plafond, bascule automatique en Bronze. Les tickets (gagnés tous les 50 combats) prolongent Silver et Gold.</p>`},
+  </tbody></table></div><p class="grad" style="margin-top:.8rem;font-size:.92rem">Défaite : 100 % de la mise part au rachat (buyback), réparti à parts égales sur 4 paliers (5k/10k/25k/50k). Au-delà du plafond, bascule automatique en Bronze. Les tickets (gagnés tous les 50 combats) prolongent Silver et Gold.</p>`},
   {t:"ENTITÉS",h:`<p class="grad">Chaque victoire donne +50 XP à chaque entité. Au niveau 100, upgrade automatique de rareté.</p><p class="grad">Raretés : Common &lt; Rare &lt; Epic &lt; Legendary</p><p class="grad">Forge une nouvelle entité pour 20 000 $FRACTALARENA · 70% Common · 20% Rare · 8% Epic · 2% Legendary.</p>`},
   {t:"TOTEM — CAPITAINE",h:`<p class="grad">Le Totem est un capitaine qui accompagne ton équipe de 3 entités. Un slot dédié est visible dans l'onglet Équipe.</p><p class="grad">6 paliers : Dormant → Hatchling → Fledgling → Ascendant → Sovereign → Ascended. Pour éveiller un Totem dormant, il faut détenir un seuil de FRACTALARENA.</p><p class="grad">Le Totem apporte une Aura qui booste ton équipe en combat : bonus aux entités du même type et bonus global. L'Aura gagne en puissance à chaque palier.</p><p class="grad">La progression se débloque via la fidélité (jours connectés), les victoires payantes et les mondes bouclés. Chaque palier débloque un art cosmétique unique dans la Galerie.</p><p class="grad">Invoquer ton Totem déclenche une cinématique 3D.</p>`},
   {t:"FORGE — FUSION & REROLL",h:`<p class="grad">La Forge permet d'améliorer tes entités en les fusionnant ou en redistribuant leurs stats de base.</p>
@@ -862,7 +864,7 @@ const GUIDE=[
     <tr><td>Rare</td><td>3 000</td><td>4 500</td><td>6 750</td><td>9 000</td></tr>
     <tr><td>Epic</td><td>8 000</td><td>12 000</td><td>18 000</td><td>24 000</td></tr>
     <tr><td>Legendary</td><td>25 000</td><td>37 500</td><td>56 250</td><td>75 000</td></tr>
-    </tbody></table></div><p class="grad" style="margin-top:.7rem;font-size:.92rem">30 % de chaque fee Forge est verrouillé à vie en liquidité (LP brûlés).</p>`},
+    </tbody></table></div><p class="grad" style="margin-top:.7rem;font-size:.92rem">100 % de chaque fee Forge part au rachat (buyback) puis est verrouillé à vie (LP-lock).</p>`},
   {t:"DÉPÔT ET RETRAIT ON-CHAIN",h:`<p class="grad">Dépôt — Envoie des $FRACTALARENA depuis UniSat vers l'adresse Reward Pool affichée dans le jeu. Colle le TXID pour valider.</p>
     <div class="warn" style="margin:.7rem 0">⚠ N'utilise PAS InSwap pour effectuer un dépôt. Envoie directement depuis UniSat Wallet — les dépôts via swap ne sont pas détectés par le serveur et ne seront pas crédités.</div>
     <p class="grad">Retrait — Saisis le montant dans le jeu. Le backend envoie automatiquement une inscription BRC-20 TRANSFER vers ton wallet. Une fois reçue : UniSat → Inscriptions → Send → ta propre adresse pour finaliser.</p><p class="grad">Cooldown entre deux retraits : 24 heures.</p>`},
@@ -880,7 +882,7 @@ const GUIDE=[
     </tbody></table></div>`},
   {t:"CAMPAGNE PVE",h:`<p class="grad">Mode Histoire : 6 mondes × 10 étages à travers l'univers Fractal Bitcoin. La difficulté est fixe par étage (elle monte avec le monde et l'étage) — ce sont les stats de ton équipe qui décident : monte tes entités en niveau, fusionne et reroll pour aller plus loin.</p><p class="grad">Récompenses : gagne des $FRACTALARENA verrouillés et des tickets. Argent = entrée campagne. Or = Forge premium (fusion 100%). 1 entrée gratuite par jour.</p><p class="grad">Les tickets Argent s'obtiennent via les milestones de l'arène (2 tous les 50 combats) et les 3 étoiles sur les étages.</p>`},
   {t:"PVP — L'ARÈNE",h:`<p class="grad">Mode classé joueur contre joueur. Définis une équipe de défense (3 entités dans l'onglet Équipe), puis attaque les équipes des autres joueurs. Victoire = ELO monte, défaite = ELO descend.</p><p class="grad">4 ligues : Bronze → Argent → Or → Diamant. Chaque saison offre une dotation en $FRACTALARENA selon ton classement final. Entrée gratuite (limitée), en FA, ou avec un ticket Or.</p><p class="grad">Les revanches sont possibles contre un adversaire qui t'a battu.</p>`},
-  {t:"LE TOKEN $FRACTALARENA",h:`<p class="grad">Supply totale : 1 000 000 000 $FRACTALARENA sur Fractal Bitcoin (BRC-20). À chaque défaite payante, la mise est répartie dans 4 pools : 36% liquidité, 32% airdrop, 16% Mega buyback, 16% buyback. Le buyback achète des tokens sur le marché puis les brûle — le Mega buyback verrouille la liquidité à vie (LP brûlés). Les deux réduisent l'offre en circulation.</p><p class="grad">Tradeable sur <a href="https://inswap.cc" target="_blank" style="color:var(--c1);-webkit-text-fill-color:var(--c1);text-decoration:none;font-weight:700">InSwap.cc</a> · Paire FB/FractalArena.</p>`},
+  {t:"LE TOKEN $FRACTALARENA",h:`<p class="grad">Supply totale : 1 000 000 000 $FRACTALARENA sur Fractal Bitcoin (BRC-20). 100 % des mises perdues et des fees (forge, boosts, vanity, PvP) alimentent le rachat (buyback), réparti à parts égales sur 4 pools indépendants (seuils 5k/10k/25k/50k). À chaque seuil atteint, les tokens sont rachetés sur le marché puis la liquidité verrouillée à vie (LP-lock) — réduction de l'offre en circulation.</p><p class="grad">Tradeable sur <a href="https://inswap.cc" target="_blank" style="color:var(--c1);-webkit-text-fill-color:var(--c1);text-decoration:none;font-weight:700">InSwap.cc</a> · Paire FB/FractalArena.</p>`},
 ];
 document.getElementById('guide').innerHTML=GUIDE.map((g,i)=>`
   <div class="guide-block">
@@ -948,7 +950,7 @@ resize();
 (function(){
   const API="https://fractal-arena-server-production.up.railway.app";
   const DEX_BURN_URL="https://inswap.net/swap?t0=FractalArena&t1=sFB___000";
-  const LIQ=100000,BURN=50000,AIR=100000,BUYBACK=35000,POLL=5000;
+  const POLL=5000;
   const $=id=>document.getElementById(id);
   const nf=new Intl.NumberFormat('fr-FR');const shown={};
   function countTo(el,target){if(!el)return;const small=el.querySelector('small');const suf=small?small.outerHTML:'';
@@ -957,32 +959,23 @@ resize();
     (function step(t){const p=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-p,3),v=Math.round(from+(target-from)*e);
       el.innerHTML=nf.format(v)+suf;if(p<1)requestAnimationFrame(step);else shown[el.id]=target;})(performance.now());}
   const setT=(el,v)=>{if(el)el.textContent=v;};
-  let burnEnds=null;
-  function tickBurn(){const note=$('pl-burn-note');if(!note||!burnEnds)return;let d=Math.max(0,burnEnds-Date.now());
-    const h=String(Math.floor(d/3.6e6)).padStart(2,'0'),m=String(Math.floor((d%3.6e6)/6e4)).padStart(2,'0'),s=String(Math.floor((d%6e4)/1000)).padStart(2,'0');
-    note.innerHTML='⏳ Burn LP dans '+h+':'+m+':'+s;}
-  setInterval(()=>{if(burnEnds)tickBurn();},1000);
   async function poll(){
     try{
       const r=await fetch(API+"/stats",{cache:"no-store"});if(!r.ok)throw 0;const j=await r.json();
       $('pl-dot').style.background="var(--live)";$('pl-status').textContent="En direct";$('pl-status').style.color="var(--live)";
-      const liq=j.liquidity_pool?.total_amount||0,air=j.airdrop_pool?.total_amount||0,b=j.burn_pool||{},burn=b.total_amount||0,bb=j.buyback_pool||{},buyback=bb.total_amount||0;
-      countTo($('pl-liq'),liq);countTo($('pl-air'),air);countTo($('pl-burn'),burn);countTo($('pl-buyback'),buyback);
-      $('pl-liq-fill').style.width=Math.min(100,liq/LIQ*100)+"%";setT($('pl-liq-sub'),nf.format(liq)+" / "+nf.format(LIQ));
-      $('pl-burn-fill').style.width=Math.min(100,burn/(b.threshold||BURN)*100)+"%";setT($('pl-burn-sub'),nf.format(burn)+" / "+nf.format(b.threshold||BURN));
-      setT($('pl-air-sub'),nf.format(air)+' / '+nf.format(AIR));$('pl-air-fill').style.width=Math.min(100,air/AIR*100)+'%';
-      $('pl-buyback-fill').style.width=Math.min(100,buyback/(bb.threshold||BUYBACK)*100)+'%';setT($('pl-buyback-sub'),nf.format(buyback)+' / '+nf.format(bb.threshold||BUYBACK));
-      const note=$('pl-burn-note');burnEnds=null;
-      if(b.ready_to_burn){note.innerHTML="🔥 Seuil atteint — Mega buyback imminent (liquidité verrouillée à vie)";}
-      else if(b.threshold_reached&&b.countdown_ends_at){burnEnds=new Date(b.countdown_ends_at).getTime();tickBurn();}
-      else if(b.last_burn&&b.last_burn.at){const lb=b.last_burn,d=new Date(lb.at).toLocaleDateString('fr-FR',{day:'2-digit',month:'short'});
-        note.innerHTML="🔒 Dernier Mega buyback : "+(lb.amount!=null?nf.format(lb.amount)+" $FA → ":"")+"liquidité verrouillée à vie · "+d+" · <a target='_blank' rel='noopener' href='"+DEX_BURN_URL+"'>voir sur InSwap</a>";}
-      else{note.innerHTML="🔒 À chaque seuil : liquidité ajoutée puis LP brûlés — verrouillée à vie sur InSwap.";}
-      const bnote=$('pl-buyback-note');
-      if(bb.ready_to_buyback){bnote.innerHTML="🔄 Seuil atteint — buyback imminent (achat + brûlage sur le marché)";}
-      else if(bb.last_buyback&&bb.last_buyback.at){const lb2=bb.last_buyback,d2=new Date(lb2.at).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'});
-        bnote.innerHTML="🔄 Dernier buyback : "+(lb2.amount!=null?nf.format(lb2.amount)+" $FA → ":"")+"brûlé · "+d2+" · <a target='_blank' rel='noopener' href='"+DEX_BURN_URL+"'>voir sur InSwap</a>";}
-      else{bnote.innerHTML="🔄 À chaque seuil : achat sur le marché puis brûlage — réduction de l'offre en circulation.";}
+      const bb=j.buyback_pool||{},pools=Array.isArray(bb.pools)?bb.pools:[];
+      if(bb.buyback_wallet)setT($('pl-bb-wallet'),bb.buyback_wallet);
+      pools.forEach((p,i)=>{
+        const total=p.total||0,thr=p.threshold||1;
+        countTo($('pl-p'+i),total);
+        const fill=$('pl-p'+i+'-fill');if(fill)fill.style.width=Math.min(100,total/thr*100)+"%";
+        setT($('pl-p'+i+'-sub'),nf.format(total)+" / "+nf.format(p.threshold));
+        const note=$('pl-p'+i+'-note');if(!note)return;
+        if(p.ready_to_buyback){note.innerHTML="🔄 Seuil atteint — rachat imminent (achat + LP-lock à vie)";}
+        else if(p.threshold_reached&&p.countdown_ends_at){const d=Math.max(0,new Date(p.countdown_ends_at).getTime()-Date.now());const h=Math.floor(d/3.6e6),m=Math.floor((d%3.6e6)/6e4);note.innerHTML="⏳ Seuil atteint — rachat sous "+h+"h "+String(m).padStart(2,'0');}
+        else if(p.last_buyback&&p.last_buyback.at){const lb=p.last_buyback,dd=new Date(lb.at).toLocaleDateString('fr-FR',{day:'2-digit',month:'short'});note.innerHTML="🔒 Dernier rachat : "+(lb.amount!=null?nf.format(lb.amount)+" $FA · ":"")+dd+" · <a target='_blank' rel='noopener' href='"+DEX_BURN_URL+"'>InSwap</a>";}
+        else{note.innerHTML="🔒 Verrouillé à vie au seuil.";}
+      });
       const on=j.players?.online||0,pl=j.players?.total||0,cb=j.players?.total_combats||0;
       countTo($('pl-online'),on);countTo($('pl-players'),pl);countTo($('pl-combats'),cb);countTo($('pl-deposits'),j.deposits?.total_amount||0);
       countTo($('h-online'),on);countTo($('h-players'),pl);countTo($('h-combats'),cb);
