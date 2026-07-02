@@ -974,7 +974,7 @@ resize();
         if(p.ready_to_buyback){note.innerHTML="🔄 Seuil atteint — rachat imminent (achat + LP-lock à vie)";}
         else if(p.threshold_reached&&p.countdown_ends_at){const d=Math.max(0,new Date(p.countdown_ends_at).getTime()-Date.now());const h=Math.floor(d/3.6e6),m=Math.floor((d%3.6e6)/6e4);note.innerHTML="⏳ Seuil atteint — rachat sous "+h+"h "+String(m).padStart(2,'0');}
         else if(p.last_buyback&&p.last_buyback.at){const lb=p.last_buyback,dd=new Date(lb.at).toLocaleDateString('fr-FR',{day:'2-digit',month:'short'});note.innerHTML="🔒 Dernier rachat : "+(lb.amount!=null?nf.format(lb.amount)+" $FA · ":"")+dd+" · <a target='_blank' rel='noopener' href='"+DEX_BURN_URL+"'>InSwap</a>";}
-        else{note.innerHTML="🔒 Verrouillé à vie au seuil.";}
+        else{note.innerHTML="🔒 Chaque rachat verrouillé à vie (LP-lock).";}
       });
       const on=j.players?.online||0,pl=j.players?.total||0,cb=j.players?.total_combats||0;
       countTo($('pl-online'),on);countTo($('pl-players'),pl);countTo($('pl-combats'),cb);countTo($('pl-bought'),bb.total_bought||0);setT($('pl-total-bought'),nf.format(bb.total_bought||0)+' $FA');
