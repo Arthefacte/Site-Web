@@ -334,7 +334,7 @@ body[data-card="outline"] .game-card{background:transparent}
 .pl-note a{color:var(--pc);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.25)}
 .pl-wallet{font-size:.75rem;font-weight:500;color:var(--ink-faint);margin-bottom:.6rem;word-break:break-all;cursor:pointer;font-family:'Rajdhani',sans-serif;letter-spacing:.3px}
 .pl-wallet:hover{color:var(--pc)}
-.pl-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1.6rem;padding-top:1.3rem;border-top:1px solid var(--line)}
+.pl-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;margin-top:1.6rem;padding-top:1.3rem;border-top:1px solid var(--line)}
 .pl-stat b{font-family:'Orbitron',sans-serif;font-size:1.4rem;font-weight:700;color:#fff;font-variant-numeric:tabular-nums;display:block}
 .pl-stat span{font-family:'Orbitron',sans-serif;font-size:9.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink-faint)}
 @media(max-width:620px){.pl-strip{grid-template-columns:repeat(2,1fr)}}
@@ -608,7 +608,7 @@ body[data-motion="off"] *{animation:none!important}
       <span id="pl-status" style="font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-dim)">Connexion…</span>
     </div>
     <div class="h2 grad vivid">Rachat en direct</div>
-    <p class="sub" style="margin:.5rem 0 0">100 % de chaque mise perdue et de chaque forge rachète $FRACTALARENA sur le marché, réparti à parts égales sur 4 paliers — puis verrouillé à vie (LP-lock).</p>
+    <p class="sub" style="margin:.5rem 0 0">100 % de chaque mise perdue et de chaque forge rachète <strong>$FRACTALARENA</strong> sur le marché, réparti sur 4 paliers — puis verrouillé à vie (LP-lock). <strong id="pl-total-bought" style="color:var(--live)">—</strong> déjà rachetés et détruits.</p>
     <div class="pl-wallet" style="margin:.6rem 0 0">📬 Wallet de rachat <span id="pl-bb-wallet">bc1qg208dw4ms36t74cqf7lenr4gzs5m5rhr3wx90s</span></div>
     <div class="pl-grid">
       <div class="pl-card" style="--pc:var(--c1)">
@@ -644,7 +644,8 @@ body[data-motion="off"] *{animation:none!important}
       <div class="pl-stat"><b id="pl-online">—</b><span>En ligne</span></div>
       <div class="pl-stat"><b id="pl-players">—</b><span>Joueurs</span></div>
       <div class="pl-stat"><b id="pl-combats">—</b><span>Combats</span></div>
-      <div class="pl-stat"><b id="pl-deposits">—</b><span>Dépôts $FA</span></div>
+      <div class="pl-stat"><b id="pl-bought">—</b><span>Rachetés $FA</span></div>
+      <div class="pl-stat"><b id="pl-locked">2 260</b><span>LP locké FB</span></div>
     </div>
   </section>
 
@@ -977,7 +978,7 @@ resize();
         else{note.innerHTML="🔒 Verrouillé à vie au seuil.";}
       });
       const on=j.players?.online||0,pl=j.players?.total||0,cb=j.players?.total_combats||0;
-      countTo($('pl-online'),on);countTo($('pl-players'),pl);countTo($('pl-combats'),cb);countTo($('pl-deposits'),j.deposits?.total_amount||0);
+      countTo($('pl-online'),on);countTo($('pl-players'),pl);countTo($('pl-combats'),cb);countTo($('pl-bought'),bb.total_bought||0);setT($('pl-total-bought'),nf.format(bb.total_bought||0)+' $FA');
       countTo($('h-online'),on);countTo($('h-players'),pl);countTo($('h-combats'),cb);
     }catch(e){$('pl-dot').style.background="rgba(255,255,255,.25)";$('pl-status').textContent="Hors ligne";$('pl-status').style.color="var(--ink-dim)";}
   }
