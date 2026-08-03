@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; connect-src 'self' blob: https://fractal-arena-server-production.up.railway.app; base-uri 'self'; form-action 'none'; object-src 'none'"/>
 
 <title>Arthefacte Games — Jeux indépendants on-chain sur Fractal Bitcoin</title>
-<meta name="description" content="Studio indépendant de jeux connectés à la blockchain Fractal Bitcoin, avec une économie réelle et transparente. Découvre Fractal Arena : combat 3v3 idle + campagne PvE."/>
+<meta name="description" content="Studio indépendant de jeux connectés à la blockchain Fractal Bitcoin, avec une économie réelle et transparente. Découvre Fractal Arena : combat 3v3 idle, campagne PvE, Tour infinie et Arène PvP — jouable sans installation."/>
 <link rel="canonical" href="https://arthefacte.com/"/>
 <meta name="theme-color" content="#06070c"/>
 
@@ -56,9 +56,9 @@
   "name": "Fractal Arena",
   "url": "https://fractalarena.com",
   "image": "https://arthefacte.com/assets/og.jpg",
-  "description": "Combat 3v3 idle + mode Campagne PvE (6 mondes × 10 étages) sur Fractal Bitcoin.",
-  "genre": ["Idle","Strategy","PvE"],
-  "gamePlatform": ["Web browser"],
+  "description": "Combat 3v3 idle sur Fractal Bitcoin : La Fosse (paris), Campagne PvE (6 mondes × 10 étages), Tour infinie et Arène PvP classée. Jouable au navigateur, sans installation ni wallet.",
+  "genre": ["Idle","Strategy","PvE","PvP"],
+  "gamePlatform": ["Web browser","Mobile web (PWA)"],
   "publisher": {"@type": "Organization", "name": "Arthefacte Games"}
 }
 </script>
@@ -555,10 +555,12 @@ body[data-motion="off"] *{animation:none!important}
             </div>
             <div class="go grad vivid">→</div>
           </div>
-          <p class="desc">Combat 3v3 idle + mode Campagne PvE (6 mondes × 10 étages) sur Fractal Bitcoin. Forge tes entités, mise tes tokens, et domine l'arène.</p>
+          <p class="desc">Combat 3v3 idle sur Fractal Bitcoin. Mise dans La Fosse, gravis la Campagne et la Tour infinie, grimpe au classement de l'Arène PvP. Jouable tout de suite, sans installation.</p>
           <div class="tags">
             <span class="tag c1">Idle · 3v3</span>
             <span class="tag c2">Campagne PvE</span>
+            <span class="tag c1">Tour infinie</span>
+            <span class="tag c2">Arène PvP</span>
             <span class="tag c1">Fractal Bitcoin</span>
             <span class="tag c2">BRC-20</span>
           </div>
@@ -590,13 +592,13 @@ body[data-motion="off"] *{animation:none!important}
     <div class="subhero wrap">
       <button class="back" onclick="showPage('home')">← Retour</button>
       <h1 class="grad vivid">FRACTAL ARENA</h1>
-      <p class="meta">Combat 3v3 idle · 6 entités · Fractal Bitcoin · Beta live</p>
+      <p class="meta">Combat 3v3 idle · La Fosse · Campagne · Tour infinie · Arène PvP · Fractal Bitcoin</p>
       <div class="actions">
         <a class="btn btn-primary" href="https://fractalarena.com" target="_blank" rel="noopener"><span class="pulse"></span>Jouer maintenant</a>
         <a class="btn btn-token" href="https://inswap.cc" target="_blank" rel="noopener"><img class="btn-token-logo" src="assets/LOGO.webp" width="20" height="20" alt=""/>$FRACTALARENA</a>
       </div>
-      <div class="warn">⚠️ Le wallet doit avoir au moins 1 transaction on-chain pour être éligible à l'airdrop de 2000 $FRACTALARENA.</div>
-      <div class="warn" style="margin-top:.6rem">🖥️ Pour jouer : ordinateur avec l'extension UniSat. Version mobile bientôt disponible.</div>
+      <div class="warn" style="border-color:rgba(35,226,122,.32);background:rgba(35,226,122,.07);color:#8df0b8">✅ Aucune installation, aucun wallet : clique sur <b>Jouer</b> et le jeu crée ton compte. Note ton code de récupération, c'est tout.</div>
+      <div class="warn" style="margin-top:.6rem">📱 Installable en 1 clic sur mobile et ordinateur (PWA). Pour <b>retirer</b> tes gains on-chain, lie un portefeuille UniSat depuis un ordinateur — c'est aussi ce qui débloque l'airdrop de 2 000 $FRACTALARENA.</div>
     </div>
   </section>
 
@@ -652,8 +654,9 @@ body[data-motion="off"] *{animation:none!important}
   <section class="section wrap reveal">
     <div class="kicker grad">Roster</div>
     <div class="h2 grad vivid">6 Entités Primordiales</div>
-    <p class="sub">Les 6 archétypes du réseau — chacune évolue et change de rareté en jeu.</p>
+    <p class="sub">Les 6 archétypes du réseau, chacun son rôle en combat. Toute invocation naît <b>Commune</b> — c'est le <b>rang</b> (C / B / A / S) qui décide de sa qualité de départ, et la <b>rareté</b> qui monte ensuite par la fusion et le niveau 100.</p>
     <div class="roster" id="roster"></div>
+    <p class="legend-note">Rang à l'invocation : C 55 % (×1,00) · B 28 % (×1,25) · A 13 % (×1,60) · S 4 % (×2,00). Le rang est gravé dans les stats de base et ne change plus jamais.</p>
   </section>
 
   <!-- GUIDE -->
@@ -808,30 +811,39 @@ document.addEventListener('keydown',e=>{
 });
 
 /* ===== ROSTER ===== */
+/* Rôles = presets réels du moteur (TYPE_TO_PRESET), couleurs identiques au jeu. */
 const ENTITIES=[
-  {n:"NETWORK", img:"assets/NETWORK.webp", r:"Legendary",rare:"legend",c:"var(--r-legend)"},
-  {n:"GENESIS", img:"assets/GENESIS.webp", r:"Epic",     rare:"epic",  c:"var(--r-epic)"},
-  {n:"LEDGER",  img:"assets/LEDGER.webp",  r:"Epic",     rare:"epic",  c:"var(--r-epic)"},
-  {n:"HASHBYTE",img:"assets/HASHBYTE.webp",r:"Rare",     rare:"rare",  c:"var(--r-rare)"},
-  {n:"MINER",   img:"assets/MINER.webp",   r:"Rare",     rare:"rare",  c:"var(--r-rare)"},
-  {n:"BLOCK",   img:"assets/BLOCK.webp",   r:"Common",   rare:"common",c:"var(--r-common)"}
+  {n:"HASHBYTE",img:"assets/HASHBYTE.webp",role:"Agressif",   c:"#FF3B5C"},
+  {n:"MINER",   img:"assets/MINER.webp",   role:"Berserker",  c:"#F7931A"},
+  {n:"LEDGER",  img:"assets/LEDGER.webp",  role:"Tacticien",  c:"#9F00FF"},
+  {n:"NETWORK", img:"assets/NETWORK.webp", role:"Contrôleur", c:"#00F0FF"},
+  {n:"BLOCK",   img:"assets/BLOCK.webp",   role:"Vol de vie", c:"#27E08A"},
+  {n:"GENESIS", img:"assets/GENESIS.webp", role:"Sniper",     c:"#FFE600"}
 ];
 document.getElementById('roster').innerHTML=ENTITIES.map((e,i)=>`
-  <div class="ent ${e.rare==='legend'?'legend':''}" style="--ec:${e.c}">
+  <div class="ent" style="--ec:${e.c}">
     <div class="frame">
       <img src="${e.img}" width="512" height="512" alt="Entité ${e.n}" loading="lazy"/>
       <div class="aura"></div>
     </div>
     <div class="body">
       <div class="name">${e.n}</div>
+      <div class="rare">${e.role}</div>
       <div class="stats">${[["HP","s-hp"],["ATK","s-atk"],["DEF","s-def"],["SPD","s-spd"],["MAG","s-mag"]].map(x=>`<span class="${x[1]}">${x[0]}</span>`).join('')}</div>
     </div>
   </div>`).join('');
 
 /* ===== GUIDE (contenu réel) ===== */
 const GUIDE=[
-  {t:"DÉMARRAGE",h:`<p class="grad">Fractal Arena est un jeu idle de combat automatique connecté à la blockchain Fractal Bitcoin. Tu as besoin du wallet UniSat configuré sur le réseau Fractal Bitcoin. Au premier lancement, tu reçois automatiquement 2 000 $FRACTALARENA en airdrop et 1 000 de mises verrouillées (wallet avec au moins 1 tx on-chain requis).</p><p class="grad">Liquid — misable + retirable on-chain. &nbsp;|&nbsp; Locked — misable uniquement.</p>`},
-  {t:"COMBAT",h:`<p class="grad">Sélectionne 3 entités, choisis un tier de mise, active BOUCLE COMBAT et laisse tourner. Le jeu joue tout seul en 3v3 automatique. Les ennemis matchent ta rareté et ton niveau, avec une variance de x0.94 à x1.10 sur leurs stats.</p><p class="grad">5 combats gratuits par jour — aucune mise requise.</p>`},
+  {t:"DÉMARRAGE",h:`<p class="grad">Fractal Arena est un jeu idle de combat automatique connecté à la blockchain Fractal Bitcoin. <b>Aucune installation, aucun portefeuille pour commencer</b> : clique sur Jouer et le jeu crée ton compte. Note ton code de récupération — c'est la seule chose à conserver, il te rend ton compte sur un autre appareil.</p>
+    <p class="grad">Tu démarres avec 3 entités, 1 000 $FRACTALARENA verrouillés et 5 tickets Argent. De quoi jouer tous les modes tout de suite.</p>
+    <p class="grad"><b>Verrouillé 🔒</b> — se joue et se dépense en jeu, ne se retire pas. &nbsp;|&nbsp; <b>Disponible ◎</b> — se retire on-chain vers ton portefeuille. Gagner transforme l'un en l'autre.</p>
+    <div class="warn" style="margin:.7rem 0">⚠️ Fractal Arena ne te demandera <b>jamais</b> de phrase de 12 mots, nulle part, sous aucun prétexte. Quiconque en réclame une en notre nom est un escroc.</div>
+    <p class="grad">Pour retirer tes gains, lie un portefeuille UniSat depuis un ordinateur (la signature passe par l'extension). Rien à y déposer : un portefeuille neuf et vide convient. La liaison libère d'un coup tes gains en attente et débloque le parcours de découverte — 775 $FRACTALARENA au total et l'airdrop de 2 000.</p>
+    <p class="grad">Le jeu s'installe en 1 clic sur mobile comme sur ordinateur (PWA) et se lance en une seconde.</p>`},
+  {t:"LA FOSSE — PARIS",h:`<p class="grad">Sélectionne 3 entités, choisis une mise, lance la boucle et laisse tourner : le combat 3v3 se joue tout seul. Les adversaires sont calibrés sur ta rareté et ton niveau, avec une variance de ×0,94 à ×1,10 sur leurs stats.</p>
+    <p class="grad"><b>5 combats gratuits par jour</b> — aucune mise requise.</p>
+    <p class="grad">La Fosse est un pari pur : ni talents, ni reliques, ni aura de Totem, ni posture n'y entrent. C'est volontaire — la profondeur tactique vit en Campagne, en Tour et en Arène ; la Fosse, elle, alimente le rachat.</p>`},
   {t:"AFFINITÉS DE TYPE",h:`<p class="grad">Chaque entité a un type, et les 6 types forment une chaîne : chacun <b>domine</b> un type et se fait <b>dominer</b> par un autre. Tu infliges <span class="win">+25%</span> de dégâts au type que tu domines, et <span class="lose">−20%</span> au type qui te domine.</p>
     <p style="text-align:center;font-family:'Orbitron',sans-serif;font-size:clamp(.72rem,2.4vw,.95rem);letter-spacing:1px;color:var(--c1-soft);margin:.6rem 0 .2rem">HashByte › Miner › Ledger › Network › Block › Genesis ↺</p>
     <div class="scrollx"><table><thead><tr><th>Type</th><th>Domine</th><th>Dominé par</th></tr></thead><tbody>
@@ -843,15 +855,33 @@ const GUIDE=[
     <tr><td>Genesis</td><td class="win">HashByte</td><td class="lose">Block</td></tr>
     </tbody></table></div>
     <p class="grad" style="margin-top:.7rem">Scoute l'équipe adverse, contre son type principal, et bascule une entité pour renverser le duel. En combat, les flèches ▲ / ▼ t'indiquent l'avantage en direct. Maintenant que le roster est équilibré, l'affinité fait souvent la différence — le counter-pick, c'est le vrai skill.</p>`},
-  {t:"MISES ET GAINS",h:`<div class="scrollx"><table><thead><tr><th>Tier</th><th>Mise</th><th>Victoire</th><th>Défaite</th><th>Loop auto/jour</th></tr></thead><tbody>
-    <tr><td style="color:#cd7f32">Bronze</td><td>10</td><td class="win">+7 (x1.7)</td><td class="lose">-10</td><td>Illimité</td></tr>
-    <tr><td style="color:#c0c0c0">Silver</td><td>25</td><td class="win">+17 (x1.7)</td><td class="lose">-25</td><td>100</td></tr>
-    <tr><td style="color:var(--c2)">Gold</td><td>50</td><td class="win">+35 (x1.7)</td><td class="lose">-50</td><td>50</td></tr>
-  </tbody></table></div><p class="grad" style="margin-top:.8rem;font-size:.92rem">Défaite : 100 % de la mise part au rachat (buyback), réparti à parts égales sur 4 paliers (5k/10k/25k/50k). Au-delà du plafond, bascule automatique en Bronze. Les tickets (gagnés tous les 50 combats) prolongent Silver et Gold.</p>`},
-  {t:"ENTITÉS",h:`<p class="grad">Chaque victoire donne +50 XP à chaque entité. Au niveau 100, upgrade automatique de rareté.</p><p class="grad">Raretés : Common &lt; Rare &lt; Epic &lt; Legendary</p><p class="grad">Forge une nouvelle entité pour 20 000 $FRACTALARENA · 70% Common · 20% Rare · 8% Epic · 2% Legendary.</p>`},
-  {t:"TOTEM — CAPITAINE",h:`<p class="grad">Le Totem est un capitaine qui accompagne ton équipe de 3 entités. Un slot dédié est visible dans l'onglet Équipe.</p><p class="grad">6 paliers : Dormant → Hatchling → Fledgling → Ascendant → Sovereign → Ascended. Pour éveiller un Totem dormant, il faut détenir un seuil de FRACTALARENA.</p><p class="grad">Le Totem apporte une Aura qui booste ton équipe en combat : bonus aux entités du même type et bonus global. L'Aura gagne en puissance à chaque palier.</p><p class="grad">La progression se débloque via la fidélité (jours connectés), les victoires payantes et les mondes bouclés. Chaque palier débloque un art cosmétique unique dans la Galerie.</p><p class="grad">Invoquer ton Totem déclenche une cinématique 3D.</p>`},
-  {t:"FORGE — FUSION & REROLL",h:`<p class="grad">La Forge permet d'améliorer tes entités en les fusionnant ou en redistribuant leurs stats de base.</p>
-    <div class="subh">FUSION</div><p class="grad">Sacrifie 2 entités de même rareté pour tenter d'obtenir une entité de rareté supérieure. La bête principale (niveau le plus élevé) conserve son XP et son niveau. Le sacrifice est détruit dans tous les cas.</p>
+  {t:"MISES ET GAINS",h:`<div class="scrollx"><table><thead><tr><th>Palier</th><th>Mise</th><th>Victoire</th><th>Défaite</th><th>Boucle auto/jour</th></tr></thead><tbody>
+    <tr><td style="color:#cd7f32">Bronze</td><td>10</td><td class="win">+7 (×1,7)</td><td class="lose">−10</td><td>Illimitée</td></tr>
+    <tr><td style="color:#c0c0c0">Argent</td><td>25</td><td class="win">+17 (×1,7)</td><td class="lose">−25</td><td>100</td></tr>
+    <tr><td style="color:var(--c2)">Or</td><td>50</td><td class="win">+35 (×1,7)</td><td class="lose">−50</td><td>50</td></tr>
+  </tbody></table></div><p class="grad" style="margin-top:.8rem;font-size:.92rem">Défaite : 100 % de la mise part au rachat (buyback), réparti à parts égales sur les 4 pools (5k / 10k / 25k / 50k). Au-delà du plafond quotidien, bascule automatique en Bronze. Tous les 50 combats, un jalon paie 50 $FA 🔒 et 2 tickets Argent.</p>`},
+  {t:"ENTITÉS, RANGS ET RARETÉS",h:`<p class="grad">Deux axes indépendants, à ne pas confondre.</p>
+    <div class="subh">RANG — la qualité de naissance</div><p class="grad">Toute invocation sort <b>Commune</b>, avec un rang tiré à la naissance : <b>C</b> 55 % (×1,00) · <b>B</b> 28 % (×1,25) · <b>A</b> 13 % (×1,60) · <b>S</b> 4 % (×2,00). Le multiplicateur est gravé dans les stats de base et ne bouge plus jamais. Une Commune rang S vaut mieux qu'une Commune rang C, à jamais.</p>
+    <div class="subh">RARETÉ — ce qui se gagne</div><p class="grad">Commune &lt; Rare &lt; Épique &lt; Légendaire. Elle monte de deux façons seulement : la <b>fusion</b> à la Forge, et le <b>niveau 100</b> (montée automatique). Elle amplifie aussi la puissance des talents et le budget de stats.</p>
+    <p class="grad">Chaque victoire donne +50 XP à chaque entité, et chaque niveau +3 % sur toutes ses stats.</p>`},
+  {t:"TALENTS",h:`<p class="grad">À partir du niveau 25, chaque entité choisit un talent, puis un second au niveau 50 et un troisième au niveau 75. Deux options par palier, propres à son type : 36 talents en tout, 6 par type.</p>
+    <p class="grad">Les magnitudes montent avec la rareté du porteur : ×1,0 Commune · ×1,3 Rare · ×1,6 Épique · <b>×2,0 Légendaire</b>. Un même talent frappe donc deux fois plus fort sur une Légendaire.</p>
+    <p class="grad">Changer d'avis se paie : 500 $FA au palier 25, 1 500 au palier 50, 4 000 au palier 75.</p>`},
+  {t:"RELIQUES ET MARCHÉ",h:`<p class="grad">Une relique s'équipe sur une entité et lui donne un bonus permanent. Invocation à la Forge : <b>8 000 $FRACTALARENA</b>. Comme les entités, elles ont une rareté qui multiplie leur effet (×1,0 → <b>×2,0</b> en Légendaire).</p>
+    <div class="scrollx"><table><thead><tr><th>Relique</th><th style="text-align:left">Effet de base</th></tr></thead><tbody>
+    <tr><td>Éclat de Rubis</td><td style="text-align:left">+12 % ATK</td></tr>
+    <tr><td>Plaque de Saphir</td><td style="text-align:left">+10 % DEF</td></tr>
+    <tr><td>Lentille de Quartz</td><td style="text-align:left">+10 % MAG</td></tr>
+    <tr><td>Cellule d'Ambre</td><td style="text-align:left">+8 % PV max</td></tr>
+    <tr><td>Ressort de Cobalt</td><td style="text-align:left">+10 % vitesse</td></tr>
+    <tr><td>Membrane d'Onyx</td><td style="text-align:left">−8 % dégâts subis</td></tr>
+    <tr><td>Circuit de Jade</td><td style="text-align:left">+5 % de critique</td></tr>
+    <tr><td>Matrice Prismatique</td><td style="text-align:left">+6 % sur toutes les stats</td></tr>
+    </tbody></table></div>
+    <div class="subh">LE MARCHÉ</div><p class="grad">Les reliques se revendent entre joueurs à prix fixe. Mise en vente : 1 % du prix (minimum 20 $FA, non remboursable) ; à la vente, 5 % de commission. Une annonce vit 7 jours, 10 annonces actives au maximum. <b>100 % de ces frais partent au rachat.</b></p>`},
+  {t:"TOTEM — CAPITAINE",h:`<p class="grad">Le Totem est un capitaine qui accompagne ton équipe de 3 entités. Un slot dédié est visible dans l'onglet Équipe.</p><p class="grad">6 paliers : Dormant → Hatchling → Fledgling → Ascendant → Sovereign → Ascended. Pour éveiller un Totem dormant, il faut détenir <b>100 000 $FRACTALARENA</b> dans ton portefeuille lié.</p><p class="grad">Le Totem apporte une Aura qui booste ton équipe en Campagne, en Tour et en Arène : bonus aux entités du même type (+3 % à +11 %) et bonus global. Au palier 5, il débloque en plus un passif de signature propre à son type.</p><p class="grad">La progression se débloque via la fidélité (30 / 90 / 180 / 360 jours) ou l'accomplissement — mondes de campagne bouclés et victoires payantes. Chaque palier débloque un art cosmétique unique dans la Galerie.</p><p class="grad">Invoquer ton Totem déclenche une cinématique 3D.</p>`},
+  {t:"FORGE — INVOCATION, FUSION, REROLL",h:`<div class="subh">INVOCATION</div><p class="grad">Invoque une nouvelle entité pour <b>10 000 $FRACTALARENA</b> — type et rang tirés au sort, rareté toujours Commune. Une relique pour 8 000. 100 % de ces frais partent au rachat.</p>
+    <div class="subh">FUSION</div><p class="grad">Sacrifie 2 entités de même rareté pour tenter d'obtenir une entité de rareté supérieure. La bête principale (niveau le plus élevé) conserve son XP et son niveau, et gagne un bond de stats garanti en cas de succès (+30 à +50 % selon la rareté visée). Le sacrifice est détruit dans tous les cas.</p>
     <div class="scrollx"><table><thead><tr><th>Rareté</th><th>Coût</th><th>Chance</th><th>Résultat</th></tr></thead><tbody>
     <tr><td>Common</td><td>3 000</td><td>60 %</td><td>Rare</td></tr>
     <tr><td>Rare</td><td>8 000</td><td>45 %</td><td>Epic</td></tr>
@@ -859,30 +889,57 @@ const GUIDE=[
     <tr><td>Legendary</td><td>—</td><td>non fusable</td><td>—</td></tr>
     </tbody></table></div>
     <div class="subh">REROLL</div><p class="grad">Redistribue aléatoirement les stats de base (<span class="stat-chip s-hp">HP</span> <span class="stat-chip s-atk">ATK</span> <span class="stat-chip s-def">DEF</span> <span class="stat-chip s-spd">SPD</span> <span class="stat-chip s-mag">MAG</span>) d'une entité. Le total de stats est conservé, seule la répartition change. Le coût augmente à chaque reroll.</p>
+    <p class="grad">Tu peux <b>verrouiller jusqu'à 2 stats</b> pour qu'elles survivent au tirage — chaque verrou multiplie le coût par 1,5. C'est le moyen de sculpter une bête au lieu de la relancer à l'aveugle.</p>
     <div class="scrollx"><table><thead><tr><th>Rareté</th><th>1er</th><th>2e (×1.5)</th><th>3e (×2.25)</th><th>4e+ (×3.0)</th></tr></thead><tbody>
     <tr><td>Common</td><td>1 000</td><td>1 500</td><td>2 250</td><td>3 000</td></tr>
     <tr><td>Rare</td><td>3 000</td><td>4 500</td><td>6 750</td><td>9 000</td></tr>
     <tr><td>Epic</td><td>8 000</td><td>12 000</td><td>18 000</td><td>24 000</td></tr>
     <tr><td>Legendary</td><td>25 000</td><td>37 500</td><td>56 250</td><td>75 000</td></tr>
     </tbody></table></div><p class="grad" style="margin-top:.7rem;font-size:.92rem">100 % de chaque fee Forge part au rachat (buyback) puis est verrouillé à vie (LP-lock).</p>`},
-  {t:"DÉPÔT ET RETRAIT ON-CHAIN",h:`<p class="grad">Dépôt — Envoie des $FRACTALARENA depuis UniSat vers l'adresse Reward Pool affichée dans le jeu. Colle le TXID pour valider.</p>
+  {t:"POSTURES DE COMBAT",h:`<p class="grad">Avant chaque combat de Campagne, de Tour ou d'Arène, tu choisis une posture pour toute l'équipe. Ce sont des parti-pris, pas des bonus gratuits : chacun donne autant qu'il retire.</p>
+    <div class="scrollx"><table><thead><tr><th>Posture</th><th style="text-align:left">Effet</th></tr></thead><tbody>
+    <tr><td>⚖️ Équilibre</td><td style="text-align:left">Aucun modificateur.</td></tr>
+    <tr><td>⚔️ Assaut</td><td style="text-align:left"><span class="win">+7 % ATK, +10 % vitesse</span> · <span class="lose">−12 % DEF</span></td></tr>
+    <tr><td>🛡️ Rempart</td><td style="text-align:left"><span class="win">+14 % DEF, +10 % PV</span> · <span class="lose">−10 % vitesse</span></td></tr>
+    <tr><td>🎯 Tactique</td><td style="text-align:left"><span class="win">+6 % de critique, ciblage prioritaire</span> · <span class="lose">−6 % ATK</span></td></tr>
+    </tbody></table></div>
+    <p class="grad" style="margin-top:.7rem">Trois postures actives qui se contrent l'une l'autre : lire l'équipe adverse avant de valider vaut plus que n'importe quel bonus de stats.</p>`},
+  {t:"CAMPAGNE PVE",h:`<p class="grad">Mode Histoire : 6 mondes × 10 étages à travers l'univers Fractal Bitcoin, boss au bout de chaque monde. La difficulté est fixe par étage — ce sont les stats de ton équipe qui décident : monte tes entités en niveau, fusionne, reroll et équipe des reliques pour aller plus loin.</p><p class="grad">Récompenses : $FRACTALARENA verrouillés, étoiles et tickets. Le ticket Argent paie l'entrée en campagne, le ticket Or ouvre la Forge premium (fusion garantie à 100 %). 1 entrée gratuite par jour.</p><p class="grad">Les tickets Argent s'obtiennent via les jalons de La Fosse (2 tous les 50 combats) et les 3 étoiles sur les étages.</p>`},
+  {t:"LA TOUR INFINIE",h:`<p class="grad">Une ascension sans fin, remise à zéro chaque lundi. Les PV <b>ne se régénèrent pas</b> entre les étages et une bête morte le reste : la Tour ne teste pas ta puissance de pointe, mais l'endurance de ton roster entier. L'auto-combat enchaîne les étages pour toi.</p>
+    <p class="grad"><b>1 run gratuit par semaine</b>, puis 100, 125 et 150 $FA les suivants (100 % au rachat).</p>
+    <div class="scrollx"><table><thead><tr><th>Étage</th><th>Récompense</th><th>Étage</th><th>Récompense</th></tr></thead><tbody>
+    <tr><td>1</td><td>50 $FA</td><td>25</td><td>500 $FA</td></tr>
+    <tr><td>5</td><td>100 $FA</td><td>30</td><td>650 $FA + 1 🎫 Argent</td></tr>
+    <tr><td>10</td><td>150 $FA + 1 🎫 Argent</td><td>35</td><td>800 $FA</td></tr>
+    <tr><td>15</td><td>250 $FA</td><td>40</td><td>1 000 $FA + 1 🎫 Or</td></tr>
+    <tr><td>20</td><td>350 $FA + 1 🎫 Or</td><td>50</td><td>1 500 $FA</td></tr>
+    </tbody></table></div>
+    <p class="grad" style="margin-top:.7rem">Chaque palier n'est payé qu'une fois par semaine. En fin de semaine, le <b>top 10</b> se partage 3 000 $FA supplémentaires.</p>
+    <div class="subh">MUTATEURS HEBDOMADAIRES</div><p class="grad">Chaque lundi, 2 modificateurs de combat sont tirés au sort et s'appliquent à <b>tout le monde et aux deux camps</b> : vitesse survoltée, blocs lourds, frais de gaz, chiffrement, résonance, fork, affinité exacerbée… La composition qui gagnait la semaine dernière n'est pas celle qui gagnera cette semaine. Uniquement dans la Tour — jamais dans la Fosse, la Campagne ou l'Arène.</p>`},
+  {t:"ARÈNE PVP",h:`<p class="grad">Mode classé joueur contre joueur. Définis une équipe de défense (3 entités dans l'onglet Équipe), puis attaque les équipes des autres joueurs. Victoire = ELO monte, défaite = ELO descend. Le défenseur bénéficie d'un avantage du terrain — attaquer sans préparer son counter-pick se paie.</p>
+    <p class="grad">L'appariement cherche des adversaires de <b>puissance comparable</b> (±25 %), pas seulement d'ELO proche : un débutant ne tombe pas sur un roster Légendaire.</p>
+    <p class="grad">4 ligues : Bronze → Argent → Or → Diamant. <b>5 entrées gratuites par jour</b>, puis 50 $FA l'entrée (100 % au rachat) ou un ticket Or. Une revanche est possible contre qui t'a battu.</p>
+    <p class="grad">Chaque semaine, une dotation de <b>10 000 $FRACTALARENA</b> récompense le classement : le podium et les ligues d'abord, puis une tranche fixe de 25 $FA pour les rangs 11 à 50. La Tour a sa propre dotation de 3 000 $FA.</p>`},
+  {t:"QUÊTES ET RÉCOMPENSES QUOTIDIENNES",h:`<p class="grad">Trois quêtes <b>quotidiennes</b> : 20 victoires (40 $FA), 50 combats payants (75 $FA), 1 message dans le chat (10 $FA). Les boucler 7 jours d'affilée paie un bonus de série de 50 $FA.</p>
+    <p class="grad">Trois quêtes <b>hebdomadaires</b>, remises à zéro le lundi 00:00 UTC : 5 victoires en attaque PvP (80 $FA), atteindre l'étage 5 de la Tour (100 $FA), 150 combats payants dans la Fosse (70 $FA).</p>
+    <p class="grad">S'y ajoutent le <b>cadeau de connexion</b> sur 7 jours et le parcours de découverte (775 $FA), qui accompagne les premiers pas dans chacun des cinq modes.</p>`},
+  {t:"BOOSTS",h:`<p class="grad">Les boosts s'achètent en $FRACTALARENA et durent plusieurs combats — pas un seul.</p>
+    <div class="scrollx"><table><thead><tr><th>Boost</th><th>Coût</th><th>Durée</th><th style="text-align:left">Effet</th></tr></thead><tbody>
+    <tr><td>🧪 XP ×2</td><td>500</td><td>50 combats</td><td style="text-align:left">Double les gains d'XP de tes entités après une victoire.</td></tr>
+    <tr><td>🛡️ Assurance</td><td>200</td><td>5 charges</td><td style="text-align:left">Ta mise est remboursée intégralement si tu perds le combat.</td></tr>
+    <tr><td>🎰 Lucky Strike</td><td>750</td><td>15 combats</td><td style="text-align:left">Multiplie tes gains en cas de victoire.</td></tr>
+    </tbody></table></div>`},
+  {t:"VANITY",h:`<p class="grad">Personnalise ton identité en jeu grâce aux Vanity Sinks — des dépenses purement cosmétiques en $FRACTALARENA.</p>
+    <div class="scrollx"><table><thead><tr><th>Vanity</th><th>Coût</th><th style="text-align:left">Effet</th></tr></thead><tbody>
+    <tr><td>✏️ Renommer</td><td>1 000</td><td style="text-align:left">Renomme ta créature — le nouveau nom s'affiche en combat.</td></tr>
+    <tr><td>🏷️ Titre joueur</td><td>5 000</td><td style="text-align:left">Débloque un titre unique affiché sous ton pseudo.</td></tr>
+    <tr><td>✦ Badge Holder</td><td>—</td><td style="text-align:left">Badge exclusif réservé aux détenteurs de $FRACTALARENA.</td></tr>
+    </tbody></table></div>`},
+  {t:"DÉPÔT ET RETRAIT ON-CHAIN",h:`<p class="grad">Ces opérations demandent un portefeuille UniSat lié à ton compte (à faire une fois, depuis un ordinateur).</p>
+    <p class="grad"><b>Dépôt</b> — Envoie des $FRACTALARENA depuis UniSat vers l'adresse Reward Pool affichée dans le jeu, puis colle le TXID pour valider. Minimum 100 $FA.</p>
     <div class="warn" style="margin:.7rem 0">⚠ N'utilise PAS InSwap pour effectuer un dépôt. Envoie directement depuis UniSat Wallet — les dépôts via swap ne sont pas détectés par le serveur et ne seront pas crédités.</div>
-    <p class="grad">Retrait — Saisis le montant dans le jeu. Le backend envoie automatiquement une inscription BRC-20 TRANSFER vers ton wallet. Une fois reçue : UniSat → Inscriptions → Send → ta propre adresse pour finaliser.</p><p class="grad">Cooldown entre deux retraits : 24 heures.</p>`},
-  {t:"BOOSTS CONSOMMABLES",h:`<p class="grad">Les boosts sont des consommables à usage unique activables avant un combat. Chaque boost coûte des $FRACTALARENA et s'applique au prochain combat uniquement.</p>
-    <div class="scrollx"><table><thead><tr><th>Boost</th><th style="text-align:left">Effet</th></tr></thead><tbody>
-    <tr><td>🧪 XP ×2</td><td style="text-align:left">Double les gains d'XP de tes entités après une victoire.</td></tr>
-    <tr><td>🛡️ Insurance</td><td style="text-align:left">Ta mise est remboursée intégralement si tu perds le combat.</td></tr>
-    <tr><td>🎰 Lucky Strike</td><td style="text-align:left">Multiplie tes gains en cas de victoire.</td></tr>
-    </tbody></table></div>`},
-  {t:"VANITY",h:`<p class="grad">Personnalise ton identité en jeu grâce aux Vanity Sinks — des dépenses cosmétiques en $FRACTALARENA.</p>
-    <div class="scrollx"><table><thead><tr><th>Vanity</th><th style="text-align:left">Effet</th></tr></thead><tbody>
-    <tr><td>✏️ Rename</td><td style="text-align:left">Renomme ta créature — le nouveau nom s'affiche en combat.</td></tr>
-    <tr><td>🏷️ Titre joueur</td><td style="text-align:left">Débloque un titre unique affiché sous ton pseudo.</td></tr>
-    <tr><td>✦ Badge Holder</td><td style="text-align:left">Badge exclusif réservé aux détenteurs de $FRACTALARENA.</td></tr>
-    </tbody></table></div>`},
-  {t:"CAMPAGNE PVE",h:`<p class="grad">Mode Histoire : 6 mondes × 10 étages à travers l'univers Fractal Bitcoin. La difficulté est fixe par étage (elle monte avec le monde et l'étage) — ce sont les stats de ton équipe qui décident : monte tes entités en niveau, fusionne et reroll pour aller plus loin.</p><p class="grad">Récompenses : gagne des $FRACTALARENA verrouillés et des tickets. Argent = entrée campagne. Or = Forge premium (fusion 100%). 1 entrée gratuite par jour.</p><p class="grad">Les tickets Argent s'obtiennent via les milestones de l'arène (2 tous les 50 combats) et les 3 étoiles sur les étages.</p>`},
-  {t:"PVP — L'ARÈNE",h:`<p class="grad">Mode classé joueur contre joueur. Définis une équipe de défense (3 entités dans l'onglet Équipe), puis attaque les équipes des autres joueurs. Victoire = ELO monte, défaite = ELO descend.</p><p class="grad">4 ligues : Bronze → Argent → Or → Diamant. Chaque saison offre une dotation en $FRACTALARENA selon ton classement final. Entrée gratuite (limitée), en FA, ou avec un ticket Or.</p><p class="grad">Les revanches sont possibles contre un adversaire qui t'a battu.</p>`},
-  {t:"LE TOKEN $FRACTALARENA",h:`<p class="grad">Supply totale : 1 000 000 000 $FRACTALARENA sur Fractal Bitcoin (BRC-20). 100 % des mises perdues et des fees (forge, boosts, vanity, PvP) alimentent le rachat (buyback), réparti à parts égales sur 4 pools indépendants (seuils 5k/10k/25k/50k). À chaque seuil atteint, les tokens sont rachetés sur le marché puis la liquidité verrouillée à vie (LP-lock) — réduction de l'offre en circulation.</p><p class="grad">Tradeable sur <a href="https://inswap.cc" target="_blank" style="color:var(--c1);-webkit-text-fill-color:var(--c1);text-decoration:none;font-weight:700">InSwap.cc</a> · Paire FB/FractalArena.</p>`},
+    <p class="grad"><b>Retrait</b> — Saisis le montant dans le jeu (de 500 à 20 000 $FA). Le backend envoie automatiquement une inscription BRC-20 TRANSFER vers ton portefeuille. Une fois reçue : UniSat → Inscriptions → Send → ta propre adresse pour finaliser.</p><p class="grad">Cooldown entre deux retraits : 24 heures. Seul le solde disponible ◎ se retire ; le solde verrouillé 🔒 reste en jeu.</p>`},
+  {t:"LE TOKEN $FRACTALARENA",h:`<p class="grad">Supply totale : 1 000 000 000 $FRACTALARENA sur Fractal Bitcoin (BRC-20). 100 % des mises perdues et de tous les frais du jeu (invocation, fusion, reroll, reliques, marché, boosts, vanity, entrées PvP et runs de Tour) alimentent le rachat (buyback), réparti à parts égales sur 4 pools indépendants (seuils 5k/10k/25k/50k). À chaque seuil atteint, les tokens sont rachetés sur le marché puis la liquidité verrouillée à vie (LP-lock) — réduction de l'offre en circulation.</p><p class="grad">Tradeable sur <a href="https://inswap.cc" target="_blank" style="color:var(--c1);-webkit-text-fill-color:var(--c1);text-decoration:none;font-weight:700">InSwap.cc</a> · Paire FB/FractalArena.</p>`},
 ];
 document.getElementById('guide').innerHTML=GUIDE.map((g,i)=>`
   <div class="guide-block">
@@ -893,7 +950,10 @@ document.getElementById('guide').innerHTML=GUIDE.map((g,i)=>`
 /* ===== SCROLL REVEAL ===== */
 let io;
 function initReveal(){
-  if(!io){io=new IntersectionObserver((es)=>{es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});},{threshold:.12});}
+  /* threshold:0 + rootMargin : un seuil en POURCENTAGE ne se déclenche jamais sur une
+     section plus haute que le viewport (12 % du guide > 100 vh) — elle resterait
+     invisible à jamais. On révèle dès que le haut de la section entre dans l'écran. */
+  if(!io){io=new IntersectionObserver((es)=>{es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});},{threshold:0,rootMargin:'0px 0px -12% 0px'});}
   document.querySelectorAll('.page.active .reveal:not(.in)').forEach(el=>io.observe(el));
 }
 
