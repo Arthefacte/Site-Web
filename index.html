@@ -96,6 +96,9 @@ html{scroll-behavior:smooth}
   text-decoration:none;letter-spacing:1px}
 .skip-link:focus{left:0}
 :focus-visible{outline:2px solid var(--c1);outline-offset:3px;border-radius:4px}
+/* html aussi : body seul ne suffit pas — un débordement (ex. la nav avant son
+   compactage mobile) rendait la page pannable horizontalement sur téléphone. */
+html{overflow-x:hidden}
 body{
   font-family:'Rajdhani',sans-serif;background:var(--bg);color:var(--ink);
   overflow-x:hidden;-webkit-font-smoothing:antialiased;
@@ -189,6 +192,19 @@ nav{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-con
   border:1px solid color-mix(in oklab,var(--c2) 45%,transparent);background:rgba(255,122,26,.06);
   transition:transform .2s,box-shadow .2s,background .2s;white-space:nowrap}
 .nav-token:hover{transform:translateY(-2px);background:rgba(255,122,26,.12);box-shadow:0 0 calc(22px*var(--glow)) rgba(255,122,26,.3)}
+
+/* Nav mobile : sans ce compactage, Jeux+About+Dashboard poussent la barre à
+   ~475px — « Dashboard » sortait de l'écran et la page devenait pannable. */
+@media(max-width:560px){
+  nav{padding:.7rem .7rem;gap:.4rem}
+  .brand{gap:.45rem}
+  .brand .name{font-size:10px;letter-spacing:1.5px}
+  .nav-links{gap:.1rem}
+  .nav-links a,.dropdown-toggle{font-size:9px;letter-spacing:.8px;padding:.5rem .4rem}
+  /* Le menu déroulant (230px depuis le bouton) sortait de l'écran à droite :
+     en mobile il se pose en bandeau sous la barre, pleine largeur. */
+  .dropdown-menu{position:fixed;left:12px;right:12px;top:54px;min-width:0}
+}
 
 /* ============ PAGES & TRANSITIONS ============ */
 .page{display:none}
@@ -362,6 +378,14 @@ td{padding:.78rem .8rem;text-align:center;color:#bfe6f7;font-weight:600}
 td:first-child{text-align:left;font-weight:700;color:#fff}
 .scrollx{overflow-x:auto;margin-top:.8rem}
 .win{color:#4dff88;font-weight:700}.lose{color:#ff6464;font-weight:700}
+/* Tables du guide en mobile : police et cellules resserrées — la plupart
+   tiennent sans scroll, les plus larges défilent dans leur .scrollx.
+   (Placé APRÈS les règles de base : à spécificité égale, l'ordre décide.) */
+@media(max-width:560px){
+  table{font-size:.95rem}
+  th{padding:.55rem .45rem;letter-spacing:1px}
+  td{padding:.65rem .45rem}
+}
 
 /* ============ ROSTER ENTITÉS ============ */
 .roster{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.2rem;margin-top:1.8rem}
