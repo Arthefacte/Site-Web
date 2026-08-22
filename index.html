@@ -350,6 +350,12 @@ body[data-card="outline"] .game-card{background:transparent}
 .pl-note a{color:var(--pc);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.25)}
 .pl-wallet{font-size:.75rem;font-weight:500;color:var(--ink-faint);margin-bottom:.6rem;word-break:break-all;cursor:pointer;font-family:'Rajdhani',sans-serif;letter-spacing:.3px}
 .pl-wallet:hover{color:var(--pc)}
+.pl-onchain{margin-top:1.3rem;padding:1rem 1.1rem;border:1px solid var(--line);border-radius:12px}
+.pl-onchain-head{font-size:.95rem;font-weight:600}
+.pl-onchain-head b{font-family:'Orbitron',sans-serif;color:var(--live);font-variant-numeric:tabular-nums}
+.pl-onchain-liste{margin-top:.6rem;display:grid;gap:.3rem}
+.pl-onchain-item{display:flex;gap:.9rem;font-size:.85rem;color:var(--ink-faint);font-variant-numeric:tabular-nums}
+.pl-onchain-item b{color:#fff;font-weight:600}
 .pl-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1.6rem;padding-top:1.3rem;border-top:1px solid var(--line)}
 .pl-stat b{font-family:'Orbitron',sans-serif;font-size:1.4rem;font-weight:700;color:#fff;font-variant-numeric:tabular-nums;display:block}
 .pl-stat span{font-family:'Orbitron',sans-serif;font-size:9.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink-faint)}
@@ -665,6 +671,12 @@ body[data-motion="off"] *{animation:none!important}
         <div class="pl-bar"><div class="pl-fill" id="pl-p3-fill"></div></div>
         <div class="pl-note" id="pl-p3-note"></div>
       </div>
+    </div>
+    <!-- Rachats vérifiés on-chain (/dex/status, lecture InSwap côté serveur).
+         Caché tant que l'API n'a pas répondu : aucune valeur fabriquée. -->
+    <div class="pl-onchain" id="pl-dex" hidden>
+      <div class="pl-onchain-head">⛓️ <b id="pl-dex-count">—</b> rachats vérifiés on-chain · <b id="pl-dex-fa">—</b> $FA ← <b id="pl-dex-fb">—</b> FB</div>
+      <div class="pl-onchain-liste" id="pl-dex-liste"></div>
     </div>
     <div class="pl-strip">
       <div class="pl-stat"><b id="pl-online">—</b><span>En ligne</span></div>
@@ -1094,6 +1106,19 @@ resize();
     }catch(e){$('pl-dot').style.background="rgba(255,255,255,.25)";$('pl-status').textContent="Hors ligne";$('pl-status').style.color="var(--ink-dim)";}
   }
   poll();setInterval(poll,POLL);
+  /* Rachats vérifiés on-chain — même source que l'écran Buyback du jeu
+     (/dex/status : le serveur lit l'Open API InSwap, cache 60 s → poll 60 s). */
+  async function pollDex(){
+    try{
+      const r=await fetch(API+"/dex/status",{cache:"no-store"});if(!r.ok)throw 0;const j=await r.json();
+      const d=j.dex||{},t=d.buyback_totals;if(!t||!t.count)return;
+      setT($('pl-dex-count'),nf.format(t.count));setT($('pl-dex-fa'),nf.format(t.fa||0));setT($('pl-dex-fb'),(t.fb||0).toFixed(2));
+      const ul=$('pl-dex-liste');
+      if(ul)ul.innerHTML=(d.buybacks||[]).slice(0,4).map(b=>"<div class='pl-onchain-item'><span>"+new Date(b.ts*1000).toLocaleDateString('fr-FR',{day:'2-digit',month:'short'})+"</span><b>"+nf.format(b.fa||0)+" $FA</b><span>← "+(+b.fb||0).toFixed(2)+" FB</span></div>").join("");
+      $('pl-dex').hidden=false;
+    }catch(e){}
+  }
+  pollDex();setInterval(pollDex,60000);
 })();
 
 /* ===== TWEAKS UI ===== */
