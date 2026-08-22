@@ -356,10 +356,10 @@ body[data-card="outline"] .game-card{background:transparent}
 .pl-onchain-liste{margin-top:.6rem;display:grid;gap:.3rem}
 .pl-onchain-item{display:flex;gap:.9rem;font-size:.85rem;color:var(--ink-faint);font-variant-numeric:tabular-nums}
 .pl-onchain-item b{color:#fff;font-weight:600}
-.pl-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1.6rem;padding-top:1.3rem;border-top:1px solid var(--line)}
+.pl-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.6rem;padding-top:1.3rem;border-top:1px solid var(--line)}
 .pl-stat b{font-family:'Orbitron',sans-serif;font-size:1.4rem;font-weight:700;color:#fff;font-variant-numeric:tabular-nums;display:block}
 .pl-stat span{font-family:'Orbitron',sans-serif;font-size:9.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink-faint)}
-@media(max-width:620px){.pl-strip{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.pl-strip{grid-template-columns:repeat(3,1fr)}}
 
 /* guide */
 .guide-block{margin-bottom:1.5rem}
@@ -682,7 +682,6 @@ body[data-motion="off"] *{animation:none!important}
       <div class="pl-stat"><b id="pl-online">—</b><span>En ligne</span></div>
       <div class="pl-stat"><b id="pl-players">—</b><span>Joueurs</span></div>
       <div class="pl-stat"><b id="pl-combats">—</b><span>Combats</span></div>
-      <div class="pl-stat"><b id="pl-bought">—</b><span>Rachetés $FA</span></div>
     </div>
   </section>
 
@@ -1083,6 +1082,7 @@ resize();
     (function step(t){const p=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-p,3),v=Math.round(from+(target-from)*e);
       el.innerHTML=nf.format(v)+suf;if(p<1)requestAnimationFrame(step);else shown[el.id]=target;})(performance.now());}
   const setT=(el,v)=>{if(el)el.textContent=v;};
+  let dexOk=false; // /dex/status a répondu au moins une fois (déclaré AVANT le premier poll())
   async function poll(){
     try{
       const r=await fetch(API+"/stats",{cache:"no-store"});if(!r.ok)throw 0;const j=await r.json();
@@ -1101,7 +1101,10 @@ resize();
         else{note.innerHTML="🔒 Chaque rachat verrouillé à vie (LP-lock).";}
       });
       const on=j.players?.online||0,pl=j.players?.total||0,cb=j.players?.total_combats||0;
-      countTo($('pl-online'),on);countTo($('pl-players'),pl);countTo($('pl-combats'),cb);countTo($('pl-bought'),bb.total_bought||0);setT($('pl-total-bought'),nf.format(bb.total_bought||0)+' $FA');
+      countTo($('pl-online'),on);countTo($('pl-players'),pl);countTo($('pl-combats'),cb);
+      /* « déjà rachetés » : le total on-chain (pollDex) fait foi dès qu'il a
+         répondu — /stats (tranches DB) n'est que l'amorçage. */
+      if(!dexOk)setT($('pl-total-bought'),nf.format(bb.total_bought||0)+' $FA');
       countTo($('h-online'),on);countTo($('h-players'),pl);countTo($('h-combats'),cb);
     }catch(e){$('pl-dot').style.background="rgba(255,255,255,.25)";$('pl-status').textContent="Hors ligne";$('pl-status').style.color="var(--ink-dim)";}
   }
@@ -1112,7 +1115,9 @@ resize();
     try{
       const r=await fetch(API+"/dex/status",{cache:"no-store"});if(!r.ok)throw 0;const j=await r.json();
       const d=j.dex||{},t=d.buyback_totals;if(!t||!t.count)return;
+      dexOk=true;
       setT($('pl-dex-count'),nf.format(t.count));setT($('pl-dex-fa'),nf.format(t.fa||0));setT($('pl-dex-fb'),(t.fb||0).toFixed(2));
+      setT($('pl-total-bought'),nf.format(t.fa||0)+' $FA');
       const ul=$('pl-dex-liste');
       if(ul)ul.innerHTML=(d.buybacks||[]).slice(0,4).map(b=>"<div class='pl-onchain-item'><span>"+new Date(b.ts*1000).toLocaleDateString('fr-FR',{day:'2-digit',month:'short'})+"</span><b>"+nf.format(b.fa||0)+" $FA</b><span>← "+(+b.fb||0).toFixed(2)+" FB</span></div>").join("");
       $('pl-dex').hidden=false;
