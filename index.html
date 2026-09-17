@@ -640,7 +640,7 @@ body[data-motion="off"] *{animation:none!important}
       <span id="pl-status" style="font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-dim)">Connexion…</span>
     </div>
     <div class="h2 grad vivid">Rachat en direct</div>
-    <p class="sub" style="margin:.5rem 0 0">100 % de chaque mise perdue et de chaque forge rachète <strong>$FRACTALARENA</strong> sur le marché, réparti sur 4 paliers — puis verrouillé à vie (LP-lock). <strong id="pl-total-bought" style="color:var(--live)">—</strong> déjà rachetés.</p>
+    <p class="sub" style="margin:.5rem 0 0">100 % de chaque mise perdue et de chaque forge rachète <strong>$FRACTALARENA</strong> sur le marché, réparti sur 4 paliers — puis verrouillé à vie (LP-lock). Les FA rachetés sont ensuite soit brûlés en direct vers l'adresse morte <code>1111111111111111111114oLvT2</code>, soit remis en pool avec leurs tokens LP brûlés : la part de pool affichée sur InSwap est une proportion instantanée, jamais un cumul. <strong id="pl-total-bought" style="color:var(--live)">—</strong> <span id="pl-total-bought-lib">déjà rachetés sur le marché — cumul vérifié on-chain</span>.</p>
     <div class="pl-wallet" style="margin:.6rem 0 0">📬 Wallet de rachat <span id="pl-bb-wallet">bc1qg208dw4ms36t74cqf7lenr4gzs5m5rhr3wx90s</span></div>
     <div class="pl-grid">
       <div class="pl-card" style="--pc:var(--c1)">
@@ -1083,6 +1083,9 @@ resize();
       el.innerHTML=nf.format(v)+suf;if(p<1)requestAnimationFrame(step);else shown[el.id]=target;})(performance.now());}
   const setT=(el,v)=>{if(el)el.textContent=v;};
   let dexOk=false; // /dex/status a répondu au moins une fois (déclaré AVANT le premier poll())
+  let cumulOnchain=0; // dernier cumul on-chain vérifié (t.fa) — le nombre affiché ne redescend jamais
+  const LIB_ONCHAIN='déjà rachetés sur le marché — cumul vérifié on-chain';
+  const LIB_DB='déduits des pools de rachat';
   async function poll(){
     try{
       const r=await fetch(API+"/stats",{cache:"no-store"});if(!r.ok)throw 0;const j=await r.json();
@@ -1103,8 +1106,18 @@ resize();
       const on=j.players?.online||0,pl=j.players?.total||0,cb=j.players?.total_combats||0;
       countTo($('pl-online'),on);countTo($('pl-players'),pl);countTo($('pl-combats'),cb);
       /* « déjà rachetés » : le total on-chain (pollDex) fait foi dès qu'il a
-         répondu — /stats (tranches DB) n'est que l'amorçage. */
-      if(!dexOk)setT($('pl-total-bought'),nf.format(bb.total_bought||0)+' $FA');
+         répondu — /stats (tranches DB) n'est que l'amorçage. Le libellé dit
+         toujours quelle grandeur est affichée, et le nombre ne diminue jamais. */
+      if(!dexOk){
+        if(cumulOnchain>0){
+          // une valeur on-chain a déjà été vérifiée : ne jamais repasser en dessous
+          setT($('pl-total-bought'),nf.format(cumulOnchain)+' $FA');
+          setT($('pl-total-bought-lib'),LIB_ONCHAIN);
+        }else{
+          setT($('pl-total-bought'),nf.format(bb.total_bought||0)+' $FA');
+          setT($('pl-total-bought-lib'),LIB_DB);
+        }
+      }
       countTo($('h-online'),on);countTo($('h-players'),pl);countTo($('h-combats'),cb);
     }catch(e){$('pl-dot').style.background="rgba(255,255,255,.25)";$('pl-status').textContent="Hors ligne";$('pl-status').style.color="var(--ink-dim)";}
   }
@@ -1118,6 +1131,8 @@ resize();
       dexOk=true;
       setT($('pl-dex-count'),nf.format(t.count));setT($('pl-dex-fa'),nf.format(t.fa||0));setT($('pl-dex-fb'),(t.fb||0).toFixed(2));
       setT($('pl-total-bought'),nf.format(t.fa||0)+' $FA');
+      cumulOnchain=t.fa||0;
+      setT($('pl-total-bought-lib'),LIB_ONCHAIN);
       const ul=$('pl-dex-liste');
       if(ul)ul.innerHTML=(d.buybacks||[]).slice(0,4).map(b=>"<div class='pl-onchain-item'><span>"+new Date(b.ts*1000).toLocaleDateString('fr-FR',{day:'2-digit',month:'short'})+"</span><b>"+nf.format(b.fa||0)+" $FA</b><span>← "+(+b.fb||0).toFixed(2)+" FB</span></div>").join("");
       $('pl-dex').hidden=false;
