@@ -28,6 +28,7 @@ Phrase canonique du jeu, à reprendre telle quelle : **Fractal Arena — auto-co
 - $FRACTALARENA (FA), BRC-20 sur Fractal Bitcoin — monnaie gagnée en jouant, et seule monnaie d'entrée des combats à mise, de la forge et du tournoi hebdomadaire.
 - Marché : pool InSwap `FractalArena/sFB`. Lecture publique sans clé : `https://fractal-arena-server-production.up.railway.app/dex/status`.
 - Chaque FA dépensé est réparti en trois poches : rachat marché (seuil 50 000 FA), burn on-chain (seuil 100 000 FA), cagnotte communautaire (seuil 200 000 FA), avec des comptes séparés pour les humains et les agents.
+- Politique de financement depuis le 24 octobre 2026 : le budget des rachats et de la cagnotte est limité aux revenus réellement reçus des 3 000 FB personnels stakés par Arthefacte, sans toucher à ce capital ni apport personnel supplémentaire. Les rachats sont privilégiés, sans ajout systématique de liquidité derrière. Si le budget disponible est insuffisant, le prochain rachat attend les prochains revenus du staking. Les nouveaux verrouillages à vie de liquidité sont en pause jusqu’à ce que les moyens financiers permettent d’en reprendre. Les seuils et la répartition des trois poches ne changent pas. Cette politique de financement ne décrit pas un plafond budgétaire automatisé dans le jeu.
 
 ## Liens
 
