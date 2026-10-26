@@ -30,6 +30,13 @@ Phrase canonique du jeu, à reprendre telle quelle : **Fractal Arena — auto-co
 - Chaque FA dépensé est réparti en trois poches : rachat marché (seuil 50 000 FA), burn on-chain (seuil 100 000 FA), cagnotte communautaire (seuil 200 000 FA), avec des comptes séparés pour les humains et les agents.
 - Politique de financement depuis le 24 octobre 2026 : le budget des rachats et de la cagnotte est limité aux revenus réellement reçus des 3 000 FB personnels stakés par Arthefacte, sans toucher à ce capital ni apport personnel supplémentaire. Les rachats sont privilégiés, sans ajout systématique de liquidité derrière. Si le budget disponible est insuffisant, le prochain rachat attend les prochains revenus du staking. Les nouveaux verrouillages à vie de liquidité sont en pause jusqu’à ce que les moyens financiers permettent d’en reprendre. Les seuils et la répartition des trois poches ne changent pas. Cette politique de financement ne décrit pas un plafond budgétaire automatisé dans le jeu.
 
+## Juridique
+
+- [Mentions légales](https://arthefacte.com/mentions-legales.html) — éditeur (personne physique, éditeur non professionnel), directeur de la publication, hébergeur GitHub Inc., propriété intellectuelle, nature du site.
+- [Politique de confidentialité](https://arthefacte.com/confidentialite.html) — aucun cookie, aucun traceur, aucune collecte directe ; journaux de l'hébergeur et appels à l'API du jeu documentés, base légale, transferts hors UE, droits RGPD.
+- [Conditions d'utilisation](https://arthefacte.com/cgu.html) — site d'information, usages interdits, avertissement sur les actifs numériques, responsabilité.
+- Contact : contact@arthefacte.com. Aucune donnée personnelle collectée par ce site ; les polices sont auto-hébergées, aucune requête vers Google.
+
 ## Liens
 
 - X / Twitter : [@Arthefacte](https://x.com/Arthefacte) · Telegram : [groupe de la communauté](https://t.me/+0fiUbHIWZkJmM2Q8) · GitHub : [github.com/Arthefacte](https://github.com/Arthefacte)

@@ -1,2 +1,7 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+*.woff2 binary
+*.png binary
+*.jpg binary
+*.webp binary
+*.mp4 binary

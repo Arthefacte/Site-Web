@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; connect-src 'self' blob: https://fractal-arena-server-production.up.railway.app; base-uri 'self'; form-action 'none'; object-src 'none'"/>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; media-src 'self'; connect-src 'self' blob: https://fractal-arena-server-production.up.railway.app; base-uri 'self'; form-action 'none'; object-src 'none'"/>
 <!-- Marqueur JS : les sections animées ne sont masquées que si ce script a pu tourner.
      Sans JS (bloqué, tronqué, erreur), la page reste lisible au lieu d'être vide. -->
 <script>document.documentElement.className+=' js';</script>
@@ -35,9 +35,8 @@
 <meta name="twitter:description" content="Studio indépendant de jeux connectés à Fractal Bitcoin. Économie réelle, transparente, on-chain. Joue à Fractal Arena."/>
 <meta name="twitter:image" content="https://arthefacte.com/assets/og.jpg"/>
 
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<!-- Polices auto-hébergées : aucune requête vers Google (vie privée) -->
+<link rel="stylesheet" href="assets/fonts.css"/>
 <script src="image-slot.js" defer></script>
 
 <!-- Données structurées -->
@@ -462,6 +461,12 @@ footer{border-top:1px solid var(--line);margin-top:3rem;padding:2.4rem 0}
 .foot-btn.gh{display:inline-flex;align-items:center;gap:8px}
 .foot-btn.gh img{width:15px;height:15px;filter:invert(1)}
 .foot small{color:var(--ink-faint);font-size:.85rem}
+.foot-legal{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;margin-top:.2rem}
+.foot-legal a{font-family:'Orbitron',sans-serif;font-size:9.5px;font-weight:700;letter-spacing:1.4px;
+  text-transform:uppercase;color:var(--ink-faint);border:1px solid var(--line);
+  padding:.42rem .7rem;border-radius:999px;text-decoration:none}
+.foot-legal a:hover{color:#fff;background:rgba(0,191,255,.08);border-color:rgba(0,191,255,.35)}
+.foot-fine{max-width:60ch;line-height:1.5;font-size:.8rem!important}
 
 /* ============ SCROLL REVEAL ============ */
 /* Masquage conditionné à html.js : sans JavaScript (bloqué, script tronqué, erreur
@@ -724,7 +729,13 @@ body[data-motion="off"] *{animation:none!important}
       <a class="foot-btn gh" href="https://github.com/Arthefacte" target="_blank" rel="noopener"><img src="assets/github.png" width="15" height="15" alt=""/>GitHub</a>
       <a class="foot-btn" href="https://fractal-arena-server-production.up.railway.app/elo" target="_blank" rel="noopener">Classement ELO</a>
     </div>
+    <nav class="foot-legal" aria-label="Informations légales">
+      <a href="mentions-legales.html">Mentions légales</a>
+      <a href="confidentialite.html">Confidentialité</a>
+      <a href="cgu.html">Conditions d'utilisation</a>
+    </nav>
     <small>© <span id="yr"></span> Arthefacte Games · Jeux indépendants connectés à Fractal Bitcoin</small>
+    <small class="foot-fine">Site d'information édité à titre non professionnel. Il ne constitue ni un conseil en investissement, ni une offre de services sur actifs numériques. Aucun cookie, aucun traceur.</small>
   </div>
 </footer>
 </div><!-- /shell -->
