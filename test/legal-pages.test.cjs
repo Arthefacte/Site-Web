@@ -58,6 +58,18 @@ test('mentions légales : éditeur, hébergeur et absence d\'adresse justifiée'
   assert.match(html, /GitHub, Inc\./);
   assert.match(html, /88 Colin P\. Kelly Jr\. Street/);
   assert.match(html, /directeur de la publication/i);
+  assert.match(html, /Arthefacte/);
+});
+
+// L'éditeur publie sous pseudo (LCEN 6-III-2) : son identité civile ne doit
+// jamais revenir en clair dans une page servie publiquement.
+test("aucune identité civile de l'éditeur dans les pages légales", () => {
+  for (const f of PAGES) {
+    const html = read(f).toLowerCase();
+    for (const mot of ["mhanna", "gabriel", "prénom :", "nom de famille"]) {
+      assert.equal(html.includes(mot), false, `${f} contient « ${mot} »`);
+    }
+  }
 });
 
 test('confidentialité : RGPD, CNIL, cookies et transferts hors UE traités', () => {
