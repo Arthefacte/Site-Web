@@ -61,14 +61,42 @@ test('mentions légales : éditeur, hébergeur et absence d\'adresse justifiée'
   assert.match(html, /Arthefacte/);
 });
 
-// L'éditeur publie sous pseudo (LCEN 6-III-2) : son identité civile ne doit
-// jamais revenir en clair dans une page servie publiquement.
+const SYNTHETIC_IDENTITY_SENTINELS = [
+  'prenom-fictif-test-uniquement',
+  'nom-fictif-test-uniquement',
+];
+const PRIVATE_IDENTITY_MARKERS = (process.env.PRIVATE_IDENTITY_DENYLIST || '')
+  .split(/\r?\n/)
+  .map((marker) => marker.trim().toLowerCase())
+  .filter(Boolean);
+const IDENTITY_MARKERS = [
+  ...SYNTHETIC_IDENTITY_SENTINELS,
+  'prénom :',
+  'nom de famille',
+  ...PRIVATE_IDENTITY_MARKERS,
+];
+const assertNoIdentityMarker = (html, source) => {
+  const normalizedHtml = html.toLowerCase();
+  for (const marker of IDENTITY_MARKERS) {
+    assert.equal(normalizedHtml.includes(marker), false,
+      `${source} contient une donnée d'identité interdite`);
+  }
+};
+
+// L'éditeur publie sous pseudo (LCEN 6-III-2) : les marqueurs propres à son
+// identité restent hors du dépôt et peuvent être injectés par un contrôle privé.
 test("aucune identité civile de l'éditeur dans les pages légales", () => {
   for (const f of PAGES) {
-    const html = read(f).toLowerCase();
-    for (const mot of ["mhanna", "gabriel", "prénom :", "nom de famille"]) {
-      assert.equal(html.includes(mot), false, `${f} contient « ${mot} »`);
-    }
+    assertNoIdentityMarker(read(f), f);
+  }
+});
+
+test("le garde-fou d'identité détecte les sentinelles synthétiques", () => {
+  for (const sentinel of SYNTHETIC_IDENTITY_SENTINELS) {
+    assert.throws(
+      () => assertNoIdentityMarker(`<p>${sentinel}</p>`, 'fixture synthétique'),
+      /fixture synthétique contient une donnée d'identité interdite/,
+    );
   }
 });
 
